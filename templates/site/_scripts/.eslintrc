@@ -1,0 +1,6 @@
+{
+  "extends": "eslint-config-ronik/browser",
+  "globals": {
+    "__DEV__": true
+  }
+}

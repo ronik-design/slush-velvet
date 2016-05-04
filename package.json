@@ -1,0 +1,48 @@
+{
+  "name": "slush-velvet",
+  "version": "0.1.0",
+  "description": "Generator for Velvet static-site generator projects.",
+  "license": "ISC",
+  "engines": {
+    "node": ">= 5.0.0"
+  },
+  "scripts": {
+    "test": "eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ronik-design/slush-velvet.git"
+  },
+  "keywords": [
+    "slush",
+    "generator"
+  ],
+  "author": "Michael Shick <m@shick.us>",
+  "bugs": {
+    "url": "https://github.com/ronik-design/slush-velvet/issues"
+  },
+  "homepage": "https://github.com/ronik-design/slush-velvet#readme",
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "eslint": "^2.9.0",
+    "eslint-config-ronik": "^1.0.2"
+  },
+  "dependencies": {
+    "async": "^2.0.0-rc.3",
+    "gulp": "^3.9.1",
+    "gulp-conflict": "^0.4.0",
+    "gulp-ignore": "^2.0.1",
+    "gulp-install": "^0.6.0",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-template": "^4.0.0",
+    "iniparser": "^1.0.5",
+    "inquirer": "^1.0.2",
+    "lodash.clone": "^4.3.2",
+    "lodash.merge": "^4.3.5",
+    "moment-timezone": "^0.5.4",
+    "uslug": "^1.0.4"
+  },
+  "eslintConfig": {
+    "extends": "ronik"
+  }
+}

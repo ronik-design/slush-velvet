@@ -1,0 +1,302 @@
+div,
+p,
+span,
+li,
+small,
+label,
+input,
+select,
+button,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include font-smoothing(on);
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings */
+@mixin heading-a($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(light),
+        line-height: 1.12
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 7.8rem;
+  line-height: map-get($config, line-height);
+}
+
+@mixin heading-b($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(regular),
+        line-height: 1.19
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 5.2rem;
+  line-height: map-get($config, line-height);
+}
+
+@mixin heading-c($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(light),
+        line-height: 1.19
+      ),
+      $options
+  );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 4.4rem;
+  line-height: map-get($config, line-height);
+}
+
+/* Copy */
+
+@mixin copy($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        link_color: -color(science-blue),
+        link_weight: -weight(bold),
+        weight: -weight(normal),
+        line-height: $line-height,
+        font-size: $font-size,
+        font-family: $font-family-sans-serif-serif
+      ),
+      $options
+    );
+
+  $font-family-sans-serif: map-get($config, font-family);
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: map-get($config, font-size);
+  line-height: map-get($config, line-height);
+
+  p,
+  ul,
+  ol,
+  figure,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 0 ($line-height-computed / 2);
+  }
+
+  strong {
+    font-weight: -weight(bold);
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  a {
+    @extend %strip-link-style;
+    color: map-get($config, link_color);
+    font-weight: map-get($config, link_weight);
+  }
+
+  a:hover {
+    @extend %strip-link-style;
+    color: map-get($config, link_color);
+    font-weight: map-get($config, link_weight);
+    text-decoration: underline;
+  }
+
+  ul,
+  ol {
+    li {
+      line-height: 1.56;
+      padding-left: 4.2rem;
+      text-indent: -0.7rem;
+    }
+    li:before {
+      color: black;
+      margin-right: 1.1rem;
+    }
+  }
+
+  ul {
+    li:before {
+      content: "• ";
+    }
+  }
+
+  ol {
+    counter-reset: section;
+    li:before {
+      counter-increment: section;
+      content: counters(section, ".") "  ";
+      color: black;
+    }
+  }
+
+}
+
+@mixin copy-a($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(regular),
+        line-height: 1.23
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 2.6rem;
+  line-height: map-get($config, line-height);
+
+  > p + p {
+    margin-top: 3.4rem;
+  }
+}
+
+@mixin copy-b($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(medium),
+        line-height: 1.19
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 2.2rem;
+  line-height: map-get($config, line-height);
+
+  > p + p {
+    margin-top: 2.2rem;
+  }
+}
+
+@mixin copy-c($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(medium),
+        line-height: 1.19
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 1.8rem;
+  line-height: map-get($config, line-height);
+
+  > p + p {
+    margin-top: 2.2rem;
+  }
+}
+
+@mixin copy-d($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(regular),
+        line-height: 1.19
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 1.6rem;
+  line-height: map-get($config, line-height);
+
+  > p + p {
+    margin-top: 2.2rem;
+  }
+}
+
+/* Rubrics */
+
+@mixin rubric-a($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(bold),
+        line-height: 1.21
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 1.4rem;
+  line-height: map-get($config, line-height);
+  letter-spacing: 0.016em;
+  text-transform: uppercase;
+}
+
+@mixin rubric-b($options: ()) {
+
+  $config:
+    map-merge(
+      (
+        color: -color(gray-xdark),
+        weight: -weight(bold),
+        line-height: 1.19
+      ),
+      $options
+    );
+
+  color: map-get($config, color);
+  font-family: $font-family-sans-serif;
+  font-weight: map-get($config, weight);
+  font-size: 1.6rem;
+  line-height: map-get($config, line-height);
+  text-transform: uppercase;
+}

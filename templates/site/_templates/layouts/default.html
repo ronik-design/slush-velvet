@@ -1,0 +1,7 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{{ page.title }} - {{ super() }}{% endblock %}
+
+{% block body_classes %}{{ super() }}{{ " " if page.body_classes }}{{ page.body_classes }}{% endblock %}
+
+{% block content %}{{ content }}{% endblock %}

@@ -1,0 +1,112 @@
+# Where things are
+base:           .
+source:         ./site
+destination:    ./public
+build_dir:      ./.build
+
+# Relative to source
+data_dir:       _data
+posts_dir:      _posts
+scripts_dir:    _scripts
+styles_dir:     _styles
+images_dir:     _images
+sprites_dir:    _sprites
+templates_dir:  _templates
+
+# Collections
+collections:
+  cartoons:
+    layout:     default
+    output:     true
+
+# Handling Reading
+encoding:       utf-8
+markdown_ext:   markdown,mkdown,mkdn,mkd,md
+html_ext:       html,htm
+
+# Filtering Content
+show_drafts:    null
+limit_posts:    0
+future:         false
+unpublished:    false
+
+# Plugins
+# plugins:
+#   - test
+
+# Conversion
+markdown:       markdown-it
+
+# Serving
+detach:         false
+port:           4000
+host:           127.0.0.1
+url:            {SLUSH{=url}}
+staging_url:    {SLUSH{=stagingUrl}}
+baseurl:        /
+error:          error.html
+
+# Outputting
+images_path:    assets/images
+scripts_path:   assets/scripts
+styles_path:    assets/styles
+sprites_path:   assets/sprites
+
+timezone:       {SLUSH{=timezone}}
+permalink:      pretty
+
+# Markdown Processors
+markdown-it:
+  options:      commonmark
+  plugins:
+    -
+      name:     markdown-it-implicit-figures
+      options:
+        dataType:   true
+        figcaption: true
+
+styles:
+  autoprefixer: last 2 versions
+  minify:
+    envs:       [production]
+  revision:
+    envs:       [production]
+
+images:
+  revision:
+    envs:       [production]
+
+scripts:
+  minify:
+    envs:       [production]
+  revision:
+    envs:       [production]
+
+defaults:
+  -
+    scope:
+      type:       posts
+    values:
+      layout:     default
+    process:
+      image_url:  images
+  -
+    scope:
+      type:       pages
+    values:
+      layout:     default
+  -
+    scope:
+      type:       images
+    values:
+      permalink:  /:urlpath/:dirname/:basename-:filters_hash:extname
+  -
+    scope:
+      type:       scripts
+    values:
+      permalink:  /:urlpath/:dirname/:basename:output_ext
+  -
+    scope:
+      type:       styles
+    values:
+      permalink:  /:urlpath/:dirname/:basename:output_ext

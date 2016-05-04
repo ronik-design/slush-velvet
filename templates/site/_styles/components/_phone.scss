@@ -1,0 +1,40 @@
+.phone__image {
+  position: relative;
+  top: 3rem;
+  width: 26.5rem;
+  height: auto;
+  margin-bottom: 3.6rem;
+
+  @include above(screen-sm) {
+    opacity: 0;
+    visibility: hidden;
+    will-change: top, opacity;
+    transition: top 0.8s $hover-function, opacity 0.8s $hover-function;
+
+    .is-viewed & {
+      top: 0;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.phone__copy {
+  @include copy-b();
+
+  position: relative;
+  top: 1.6rem;
+
+  @include above(screen-sm) {
+    opacity: 0;
+    visibility: hidden;
+    will-change: top, opacity;
+    transition: top 0.5s $hover-function 0.3s, opacity 0.5s $hover-function 0.3s;
+
+    .is-viewed & {
+      top: 0;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

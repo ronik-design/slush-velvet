@@ -1,0 +1,12 @@
+---
+title: HOMEPAGE
+layout: default
+---
+
+<div>Welcome to the {{ page.title }}</div>
+
+<ul>
+{% for post in site.posts %}
+  <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>

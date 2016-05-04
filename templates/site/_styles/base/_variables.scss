@@ -1,0 +1,80 @@
+/* Media queries breakpoints */
+$screen-xs: 400px;
+$screen-sm: 600px;
+$screen-md: 800px;
+$screen-xm: 1000px;
+$screen-lg: 1200px;
+$screen-xl: 1600px;
+
+/* Grid system */
+$grid-gutter-width: 20px;
+
+/* Container sizes */
+$container-tablet: (720px + $grid-gutter-width);
+$container-desktop: (940px + $grid-gutter-width);
+$container-hd: (1140px + $grid-gutter-width);
+
+/* Typography */
+
+$font-family-sans-serif: "RT Raleway", Helvetica, Arial, sans-serif;
+$font-family-serif: "Times New Roman", "Times", serif;
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-base: 10px;
+$font-size: 1.6rem;
+$font-size-large: ceil(($font-size-base * 1.25));
+$font-size-small: ceil(($font-size-base * 0.85));
+
+$line-height-base: 1.428571429;
+$line-height-computed: floor(($font-size-base * $line-height-base));
+
+$headings-font-family: inherit;
+$headings-font-weight: 500;
+$headings-line-height: 1.1;
+$headings-color: inherit;
+
+/* Modals */
+
+$modal-content-bg: #ffffff;
+$modal-backdrop-bg: #000000;
+$modal-backdrop-opacity: 0.5;
+
+$modal-lg: 900px;
+$modal-md: 600px;
+$modal-sm: 300px;
+
+$font-weights: (
+  thin: 100,
+  extra-light: 200,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+  extra-bold: 800,
+  black: 900
+);
+
+$breakpoints: (
+  screen-xs: $screen-xs,
+  screen-sm: $screen-sm,
+  screen-md: $screen-md,
+  screen-xm: $screen-xm,
+  screen-lg: $screen-lg,
+  screen-xl: $screen-xl
+);
+
+$layers: (
+  content,
+  dropdown,
+  overlay,
+  header,
+  modal,
+  modal-background,
+  modal-content
+);
+
+/* Transitions */
+$hover-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+$swift-out: cubic-bezier(0.55, 0, 0.1, 1);

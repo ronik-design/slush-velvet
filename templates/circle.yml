@@ -1,0 +1,15 @@
+machine:
+  timezone:
+    America/New_York
+  node:
+    version: 5.0.0
+
+deployment:
+  production:
+    tag: /v.*/
+    commands:
+      - NODE_ENV=production npm run deploy:production
+  staging:
+    branch: master
+    commands:
+      - npm run deploy

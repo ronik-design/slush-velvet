@@ -1,0 +1,12 @@
+.badges__item {
+  display: inline-block;
+
+  & + * {
+    margin-left: 1.5rem;
+  }
+}
+
+.badges__image {
+  width: auto;
+  height: 5rem;
+}

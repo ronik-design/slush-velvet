@@ -1,0 +1,39 @@
+{% macro output(settings) %}
+
+  <link rel="shortcut icon" href="favicon.ico">
+
+  {% if settings.pinicon %}
+    <link rel="mask-icon" sizes="any" href="{{ settings.pinicon }}" color="{{ settings.pinicon_color }}">
+  {% endif %}
+
+  {% if settings.tileicon %}
+    <meta name="msapplication-TileColor" content="{{ settings.tileicon_color }}">
+    <meta name="msapplication-TileImage" content="{{ settings.tileicon | image_url({ resize: [144] }) }}">
+  {% endif %}
+
+  {% if settings.favicon %}
+
+    {% set fav = settings.favicon %}
+
+    {% set icon_sizes = [ 16, 32, 96, 160, 192 ] %}
+    {% for size in icon_sizes %}
+      {% if settings.favicon_small %}
+        {% if size == 16 or size == 32 %}
+          {% set fav = settings.favicon_small %}
+        {% endif %}
+      {% endif %}
+      <link rel="icon" type="image/png" href="{{ fav | image_url({ resize: [size] }) }}" sizes="{{ size }}x{{ size }}">
+    {% endfor %}
+
+    {% set touch_sizes = [ 57, 60, 72, 76, 114, 120, 144, 152, 180 ] %}
+    {% for size in touch_sizes %}
+      <link rel="apple-touch-icon" href="{{ fav | image_url({ resize: [size] }) }}" sizes="{{ size }}x{{ size }}">
+    {% endfor %}
+
+  {% endif %}
+
+  {% if settings.theme_color %}
+    <meta name="theme-color" content="{{ settings.theme_color }}">
+  {% endif %}
+
+{%- endmacro %}

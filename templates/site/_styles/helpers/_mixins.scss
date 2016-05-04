@@ -1,0 +1,118 @@
+/* General */
+
+@mixin font-smoothing($value: on) {
+  @if $value == on {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @else {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
+}
+
+@mixin cf() {
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin strip-input-style() {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: 0 none !important;
+  appearance: none;
+}
+
+@mixin ratio-box($percent) {
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    padding-top: $percent;
+  }
+
+  > div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@mixin button($size, $color) {
+  @include strip-input-style;
+
+  $hover-color: #ffffff;
+
+  color: $color;
+  line-height: 1;
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  appearance: none;
+  outline: 0 none;
+  border: 0.1rem solid $color;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  transition: background-color 0.3s cubic-bezier(0.075, 0.82, 0.165, 1), color 0.2s ease-in-out, opacity 0.15s ease-in;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:not(:disabled) {
+    cursor: pointer;
+
+    &:hover {
+      color: $hover-color;
+      background-color: $color;
+    }
+  }
+}
+
+/* Media Query Helpers */
+@mixin above($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @include breakpoint(min-width map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unknown `#{$breakpoint}` in $breakpoints.";
+  }
+}
+
+@mixin below($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @include breakpoint(max-width map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unknown `#{$breakpoint}` in $breakpoints.";
+  }
+}
+
+@mixin between($breakpoint-1, $breakpoint-2) {
+  @if map-has-key($breakpoints, $breakpoint-1) and map-has-key($breakpoints, $breakpoint-2) {
+    @include breakpoint(map-get($breakpoints, $breakpoint-1) map-get($breakpoints, $breakpoint-2)) {
+      @content;
+    }
+  }
+
+  @else {
+    @warn "Unknown values in $breakpoints.";
+  }
+}
+

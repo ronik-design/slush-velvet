@@ -1,0 +1,27 @@
+.newsletter {
+  @extend %basic-block;
+
+  border-top: 1px solid -color(gray-light);
+  padding: 8rem 0;
+}
+
+.newsletter__inner {
+  @extend %container;
+
+  text-align: center;
+}
+
+.newsletter__heading {
+  @include heading-b((
+    color: -color(green),
+    weight: -weight(light)
+  ));
+
+  margin-bottom: 0.8rem;
+}
+
+.newsletter__copy {
+  @include copy-b();
+
+  margin-bottom: 3.4rem;
+}

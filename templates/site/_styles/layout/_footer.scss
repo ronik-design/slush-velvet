@@ -1,0 +1,37 @@
+.footer {
+  @extend %basic-block;
+
+  border-top: 1px solid -color(gray-light);
+}
+
+.footer__inner {
+  @extend %container;
+
+  display: block;
+  padding-top: 3.6rem;
+  padding-bottom: 3.6rem;
+}
+
+.footer__item {
+  display: inline-block;
+
+  & + * {
+    margin-left: 2.8rem;
+  }
+}
+
+.footer__link {
+  @include copy-c();
+
+  text-decoration: none;
+  will-change: color;
+  transition: color 0.2s $hover-function;
+
+  &:hover {
+    color: -color(green);
+  }
+
+  &:active {
+    color: -color(teal);
+  }
+}

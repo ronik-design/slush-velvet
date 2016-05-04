@@ -1,0 +1,42 @@
+.form {
+  position: relative;
+  display: inline-block;
+}
+
+.form__element {
+  @include strip-input-style;
+  @include copy-c((
+    line-height: 6rem
+  ));
+
+  border: 1px solid -color(gray-light);
+  border-radius: 0.3rem;
+  padding-left: 2.4rem;
+  padding-right: 12.8rem;
+  height: 6.4rem;
+  width: 40rem;
+}
+
+.form__submit {
+  @include strip-input-style;
+  @include rubric-b((
+    color: -color(white)
+  ));
+
+  width: 12.8rem;
+  height: 6.4rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: -color(green);
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+  will-change: background;
+  transition: background 0.2s $hover-function;
+  cursor: pointer;
+  z-index: -z(content);
+
+  &:hover {
+    background-color: -color(teal);
+  }
+}

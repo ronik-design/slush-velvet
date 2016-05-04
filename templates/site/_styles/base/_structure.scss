@@ -1,0 +1,31 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 100%;
+}
+
+html {
+  font-size: $font-size-base;
+}
+
+body {
+  font-size: $font-size;
+}
+
+/* stylelint-disable media-feature-name-no-vendor-prefix */
+@media
+  (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 900px),
+  (min-resolution: 192dpi) and (max-device-width: 1024px) {
+  html {
+    font-size: 5px;
+  }
+}
+/* stylelint-enable */
