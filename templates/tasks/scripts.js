@@ -22,6 +22,16 @@ notify.logLevel(0);
 
 const TASK = 'scripts';
 
+const MINIFY_DEFAULTS = {
+  'screw_ie8': true,
+  'properties': true,
+  'dead_code': false,
+  'unused': false,
+  'drop_debugger': true,
+  'warnings': true,
+  'keep_fargs': true
+};
+
 const getConfig = function (scriptsDir, options) {
   let configPath;
 
@@ -72,37 +82,27 @@ gulp.task('scripts:bundle', () => {
 
   const webpackConfig = getConfig(scriptsDir, {production});
 
-  config.eslint = {configFile: path.join(scriptsDir, '.eslintrc')};
+  webpackConfig.eslint = {configFile: path.join(scriptsDir, '.eslintrc')};
 
   const scripts = site.scripts.filter(script => script.bundle);
 
   const tasks = [];
 
   for (const script of scripts) {
-    const filename = path.join(scriptsDir, script.path);
-
     const webpackConfigCopy = hoek.clone(webpackConfig);
-    webpackConfigCopy.output = {filename};
+    webpackConfigCopy.output = {filename: script.destination};
 
     if (script.minify) {
-      webpackConfigCopy.plugins.push(new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          'screw_ie8': true,
-          'properties': true,
-          'dead_code': false,
-          'unused': false,
-          'drop_debugger': true,
-          'warnings': true,
-          'keep_fargs': true
-        }
-      }));
+      const minifySettings = hoek.reach(config, 'scripts.minify.settings') || {};
+      const uglifyOpts = {compress: Object.assign(MINIFY_DEFAULTS, minifySettings)};
+      const uglify = new webpack.optimize.UglifyJsPlugin(uglifyOpts);
+      webpackConfigCopy.plugins.push(uglify);
     }
 
     tasks.push(gulp.src(script.path, {cwd: scriptsDir, base: scriptsDir})
-      .pipe(cached(TASK))
       .pipe(gulpIf(watching, plumber({errorHandler})))
+      .pipe(velvet.init(path.join(scriptsDir, script.path)))
       .pipe(webpackStream(webpackConfigCopy, webpack))
-      .pipe(velvet.init())
       .pipe(velvet.destination()));
   }
 
@@ -111,6 +111,7 @@ gulp.task('scripts:bundle', () => {
   }
 
   return merge(tasks)
+    .pipe(size({title: 'scripts'}))
     .pipe(gulp.dest(buildDir))
     .pipe(velvet.revisionManifest({base: buildDir, merge: true}))
     .pipe(gulp.dest(buildDir));
