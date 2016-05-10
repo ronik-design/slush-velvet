@@ -1,13 +1,10 @@
-/* eslint max-statements:0 */
-/* eslint max-params:0 */
-/* eslint max-len:0 */
-
 'use strict';
 
 const path = require('path');
+const url = require('url');
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const sourcemaps = require('gulp-sourcemaps');
 const notify = require('gulp-notify');
 const size = require('gulp-size');
@@ -15,7 +12,7 @@ const gulpIf = require('gulp-if');
 const runSequence = require('run-sequence');
 const merge = require('merge-stream');
 const clone = require('hoek').clone;
-const velvet = require('velvet').gulp;
+const velvetGulp = require('velvet').gulp;
 
 const sass = require('gulp-sass');
 const nodeSass = require('node-sass');
@@ -31,35 +28,50 @@ const qs = require('qs');
 
 const errorHandler = notify.onError();
 
+const getFileUrl = function (site) {
+  return function (relpath) {
+    const parsed = url.parse(relpath);
+    const file = site.getFile(parsed.pathname);
+
+    if (file) {
+      file.output = true;
+      return `${file.url}${parsed.search || ''}${parsed.hash || ''}`;
+    }
+
+    return relpath;
+  };
+};
+
 const getImageUrl = function (site) {
   return function (relpath, filters) {
+    const parsed = url.parse(relpath);
     filters = filters || {};
 
     if (typeof filters === 'string') {
       filters = qs.parse(filters);
     }
 
-    const image = site.getImage(relpath);
+    const image = site.getImage(parsed.pathname);
 
     if (!image) {
-      return '';
+      return relpath;
     }
 
-    let url = image.url;
+    let imageUrl = image.url;
 
     if (Object.keys(filters).length > 0) {
-      url = image.addVariant(filters).url;
+      imageUrl = image.addVariant(filters).url;
     } else {
       image.output = true;
     }
 
-    return url;
+    return `${imageUrl}${parsed.search || ''}${parsed.hash || ''}`;
   };
 };
 
 gulp.task('styles:lint', () => {
-  const watching = util.env.watching;
-  const site = util.env.velvet.getGlobal('site');
+  const watching = gutil.env.watching;
+  const site = gutil.env.velvet.getGlobal('site');
 
   const srcDir = site.config['styles_dir'];
 
@@ -74,10 +86,10 @@ gulp.task('styles:lint', () => {
 });
 
 gulp.task('styles:build', () => {
-  const production = util.env.production;
-  const watching = util.env.watching;
+  const production = gutil.env.production;
+  const watching = gutil.env.watching;
 
-  const site = util.env.velvet.getGlobal('site');
+  const site = gutil.env.velvet.getGlobal('site');
   const config = site.config;
 
   const baseDir = config.base;
@@ -128,9 +140,13 @@ gulp.task('styles:build', () => {
         filters.rotate = rotate.getValue();
       }
 
-      const iUrl = getImageUrl(site)(imagePath.getValue(), filters);
+      const imageUrl = getImageUrl(site)(imagePath.getValue(), filters);
 
-      return new nodeSass.types.String(`url('${iUrl}')`);
+      return new nodeSass.types.String(`url('${imageUrl}')`);
+    },
+    'file-url($path: "")'(filePath) {
+      const fileUrl = getFileUrl(site)(filePath.getValue());
+      return new nodeSass.types.String(`url('${fileUrl}')`);
     }
   };
 
@@ -153,24 +169,24 @@ gulp.task('styles:build', () => {
 
     const task = gulp.src(style.path, srcOpts)
       .pipe(gulpIf(watching, plumber({errorHandler})))
-      .pipe(velvet.init())
+      .pipe(velvetGulp.init())
       .pipe(gulpIf(!production, sourcemaps.init()))
       .pipe(sass({includePaths: sassPaths, functions: sassFunctions}).on('error', sass.logError))
       .pipe(postcss(processors))
-      .pipe(velvet.destination())
+      .pipe(velvetGulp.destination())
       .pipe(gulpIf(!production, sourcemaps.write('./')));
 
     tasks.push(task);
   }
 
   if (!tasks.length) {
-    return gulp.src('.').pipe(util.noop());
+    return gulp.src('.').pipe(gutil.noop());
   }
 
   return merge(tasks)
     .pipe(size({title: 'styles'}))
     .pipe(gulp.dest(buildDir))
-    .pipe(velvet.revisionManifest({base: buildDir, merge: true}))
+    .pipe(velvetGulp.revisionManifest({base: buildDir, merge: true}))
     .pipe(gulp.dest(buildDir));
 });
 

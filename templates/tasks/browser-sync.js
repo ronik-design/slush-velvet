@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const url = require('url');
 const gulp = require('gulp');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const browserSync = require('browser-sync');
 
 const DEFAULT_PORT = 4000;
@@ -22,12 +22,12 @@ const middleware = function (buildDir) {
 };
 
 gulp.task('browser-sync', () => {
-  const config = util.env.velvet.getGlobal('site').config;
+  const config = gutil.env.velvet.getGlobal('site').config;
   const buildDir = config['build_dir'];
 
-  const host = util.env.host || 'localhost';
-  const port = util.env.port || DEFAULT_PORT;
-  const spa = util.env.spa;
+  const host = gutil.env.host || 'localhost';
+  const port = gutil.env.port || DEFAULT_PORT;
+  const spa = gutil.env.spa;
 
   const server = {
     baseDir: buildDir
@@ -53,7 +53,7 @@ gulp.task('browser-sync', () => {
     }]
   });
 
-  util.env.reload = browserSync.reload;
+  gutil.env.reload = browserSync.reload;
 
   // watch(path.join(buildDir, '**/*.+(js|html|css)'), () => {
   //   browserSync.reload();

@@ -2,6 +2,8 @@
 
 {% block title %}{{ page.title }} - {{ super() }}{% endblock %}
 
+{% block meta %}{{ meta.output(site.data.settings, page) }}{% endblock %}
+
 {% block body_classes %}{{ super() }}{{ " " if page.body_classes }}{{ page.body_classes }}{% endblock %}
 
 {% block content %}{{ content }}{% endblock %}

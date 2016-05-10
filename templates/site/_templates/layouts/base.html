@@ -8,9 +8,9 @@
 <html>
 
   {% set site_name = site.data.settings.site_name %}
-  {% set site_description = site.data.settings.site_description %}
   {% set analytics_id = site.data.settings.analytics_id %}
   {% import "macros/favicons.html" as favicons %}
+  {% import "macros/meta.html" as meta %}
 
   <head>
 
@@ -21,7 +21,7 @@
 
     <title>{% block title %}{{ site_name | default(site.config.host) }}{% endblock %}</title>
 
-    {% block meta %}{% include "partials/meta.html" %}{% endblock %}
+    {% block meta %}{{ meta.output(site.data.settings) }}{% endblock %}
 
     {{ favicons.output(site.data.settings) }}
 

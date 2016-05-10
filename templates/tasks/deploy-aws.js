@@ -1,12 +1,9 @@
-/* eslint global-require:0 */
-/* eslint max-statements:0 */
-
 'use strict';
 
 const path = require('path');
 const url = require('url');
 const gulp = require('gulp');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const gulpIf = require('gulp-if');
 const ignore = require('gulp-ignore');
 const runSequence = require('run-sequence');
@@ -15,7 +12,7 @@ const s3Website = require('s3-website');
 const notify = require('gulp-notify');
 const merge = require('merge-stream');
 const parallelize = require('concurrent-transform');
-const cyan = util.colors.cyan;
+const cyan = gutil.colors.cyan;
 const logName = `'${cyan('aws')}'`;
 
 const MAX_CONCURRENCY = 5;
@@ -52,8 +49,8 @@ const getHostname = function (target, config) {
 };
 
 gulp.task('aws:config', cb => {
-  const target = util.env['deploy-target'] || 'staging';
-  const site = util.env.velvet.getGlobal('site');
+  const target = gutil.env.target || 'staging';
+  const site = gutil.env.velvet.getGlobal('site');
 
   const config = site.config;
 
@@ -82,10 +79,10 @@ gulp.task('aws:config', cb => {
       return cb(err);
     }
 
-    util.env.website = website;
+    gutil.env.website = website;
 
     if (website && website.modified) {
-      util.log(logName, 'Site config updated');
+      gutil.log(logName, 'Site config updated');
     }
 
     cb(err);
@@ -93,9 +90,9 @@ gulp.task('aws:config', cb => {
 });
 
 gulp.task('aws:publish', cb => {
-  const force = util.env.force;
-  const target = util.env['deploy-target'] || 'staging';
-  const site = util.env.velvet.getGlobal('site');
+  const force = gutil.env.force;
+  const target = gutil.env.target || 'staging';
+  const site = gutil.env.velvet.getGlobal('site');
 
   const config = site.config;
 
@@ -117,8 +114,8 @@ gulp.task('aws:publish', cb => {
 
   const revManifest = getManifest(deployDir);
 
-  let gzipRevisioned = util.noop();
-  let plainRevisioned = util.noop();
+  let gzipRevisioned = gutil.noop();
+  let plainRevisioned = gutil.noop();
 
   if (revManifest.length) {
     const revPaths = revManifest.map(p => path.join(deployDir, p));
@@ -151,4 +148,4 @@ gulp.task('aws:publish', cb => {
     .pipe(awspublish.reporter());
 });
 
-gulp.task('aws', cb => runSequence('aws:config', 'aws:publish', cb));
+gulp.task('deploy:aws', cb => runSequence('aws:config', 'aws:publish', cb));

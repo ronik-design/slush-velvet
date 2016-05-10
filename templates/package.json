@@ -11,7 +11,7 @@
     "pretest": "npm run lint && npm run build",
     "build": "node --nowarn_template_set ./node_modules/.bin/gulp build",
     "deploy": "node --nowarn_template_set ./node_modules/.bin/gulp deploy",
-    "deploy:production": "node --nowarn_template_set ./node_modules/.bin/gulp deploy --deploy-target=production",
+    "deploy:production": "node --nowarn_template_set ./node_modules/.bin/gulp deploy --target=production",
     "start": "node server.js",
     "test": "ava"
   },
@@ -34,7 +34,7 @@
     "cssnano": "^3.5.2",
     "del": "^2.0.1",
     "eslint": "^2.9.0",
-    "eslint-config-velvet": "^1.0.0",
+    "eslint-config-ronik": "^1.0.3",
     "eslint-loader": "^1.0.0",
     "glob": "^7.0.3",
     "gulp": "^3.8.11",
@@ -78,7 +78,7 @@
     "through2": "^2.0.1",
     "uslug": "^1.0.3",
     "vanillajs-dom": "^0.2.0",
-    "velvet": "0.0.9",
+    "velvet": "1.0.0",
     "vinyl-transform": "^1.0.0",
     "webpack": "^2.1.0-beta.6",
     "webpack-stream": "^3.1.0"

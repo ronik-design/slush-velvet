@@ -114,7 +114,7 @@ Example of a fully fleshed-out SCSS rule using Ronik writing style
      */
     transition: color 0.15s ease-in, top 0.15s cubic-bezier(0.445, 0.05, 0.55, 0.95);
     cursor: pointer;
-    z-index: -z("content");
+    z-index: -z(content);
 
     /**
      * After all base styles for the element have been defined, add declarations for

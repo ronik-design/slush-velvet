@@ -14,7 +14,7 @@
 {%- endmacro %}
 
 {# Title with fallback support #}
-{% macro title(primary, fallback, size, separator) %}
+{% macro title(primary, fallback, size) %}
 
   {% set site_name = site.data.settings.site_name %}
   {% set text = primary | default(fallback) | striptags | replace('\n', '') %}
@@ -24,7 +24,7 @@
     {% set text = text | truncate(size) %}
   {% endif %}
 
-  {{ text if text }}{{ separator | default(' - ') if site_name and text }}{{ site_name }}
+  {{ text if text }}
 
 {%- endmacro %}
 
@@ -51,7 +51,7 @@
 {% endmacro %}
 
 {# Absolute urls #}
-{% macro absolute_url(url) %}{{ site.config.url }}{{ url }}{%- endmacro %}
+{% macro absolute_url(url) %}{% if not url | starts_with('https?://') %}{{ site.config.url }}{% if not url | starts_with('/') %}/{% endif %}{% endif %}{{ url }}{%- endmacro %}
 
 {# Link helper #}
 {% macro link(url, text, classes) %}

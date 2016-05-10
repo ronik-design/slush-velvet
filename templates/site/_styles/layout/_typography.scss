@@ -19,67 +19,58 @@ h6 {
 }
 
 /* Headings */
-@mixin heading-a($options: ()) {
+
+@mixin heading($options: ()) {
 
   $config:
     map-merge(
       (
-        color: -color(gray-xdark),
-        weight: -weight(light),
-        line-height: 1.12
+        color: $headings-color,
+        weight: $headings-font-weight,
+        line-height: $headings-line-height
       ),
       $options
     );
 
   color: map-get($config, color);
-  font-family: $font-family-sans-serif;
+  font-family: $headings-font-family;
   font-weight: map-get($config, weight);
-  font-size: 7.8rem;
   line-height: map-get($config, line-height);
-}
 
-@mixin heading-b($options: ()) {
+  h1,
+  .h1 {
+    font-size: $font-size-h1;
+  }
 
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(regular),
-        line-height: 1.19
-      ),
-      $options
-    );
+  h2,
+  .h2 {
+    font-size: $font-size-h2;
+  }
 
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 5.2rem;
-  line-height: map-get($config, line-height);
-}
+  h3,
+  .h3 {
+    font-size: $font-size-h3;
+  }
 
-@mixin heading-c($options: ()) {
+  h4,
+  .h4 {
+    font-size: $font-size-h4;
+  }
 
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(light),
-        line-height: 1.19
-      ),
-      $options
-  );
+  h5,
+  .h5 {
+    font-size: $font-size-h5;
+  }
 
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 4.4rem;
-  line-height: map-get($config, line-height);
+  h6,
+  .h6 {
+    font-size: $font-size-h6;
+  }
 }
 
 /* Copy */
 
 @mixin copy($options: ()) {
-
   $config:
     map-merge(
       (
@@ -89,15 +80,15 @@ h6 {
         weight: -weight(normal),
         line-height: $line-height,
         font-size: $font-size,
-        font-family: $font-family-sans-serif-serif
+        font-family: $font-family-serif
       ),
       $options
-    );
+  );
 
-  $font-family-sans-serif: map-get($config, font-family);
+  $font-family: map-get($config, font-family);
 
   color: map-get($config, color);
-  font-family: $font-family-sans-serif;
+  font-family: $font-family;
   font-weight: map-get($config, weight);
   font-size: map-get($config, font-size);
   line-height: map-get($config, line-height);
@@ -164,139 +155,4 @@ h6 {
     }
   }
 
-}
-
-@mixin copy-a($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(regular),
-        line-height: 1.23
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 2.6rem;
-  line-height: map-get($config, line-height);
-
-  > p + p {
-    margin-top: 3.4rem;
-  }
-}
-
-@mixin copy-b($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(medium),
-        line-height: 1.19
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 2.2rem;
-  line-height: map-get($config, line-height);
-
-  > p + p {
-    margin-top: 2.2rem;
-  }
-}
-
-@mixin copy-c($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(medium),
-        line-height: 1.19
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 1.8rem;
-  line-height: map-get($config, line-height);
-
-  > p + p {
-    margin-top: 2.2rem;
-  }
-}
-
-@mixin copy-d($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(regular),
-        line-height: 1.19
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 1.6rem;
-  line-height: map-get($config, line-height);
-
-  > p + p {
-    margin-top: 2.2rem;
-  }
-}
-
-/* Rubrics */
-
-@mixin rubric-a($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(bold),
-        line-height: 1.21
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 1.4rem;
-  line-height: map-get($config, line-height);
-  letter-spacing: 0.016em;
-  text-transform: uppercase;
-}
-
-@mixin rubric-b($options: ()) {
-
-  $config:
-    map-merge(
-      (
-        color: -color(gray-xdark),
-        weight: -weight(bold),
-        line-height: 1.19
-      ),
-      $options
-    );
-
-  color: map-get($config, color);
-  font-family: $font-family-sans-serif;
-  font-weight: map-get($config, weight);
-  font-size: 1.6rem;
-  line-height: map-get($config, line-height);
-  text-transform: uppercase;
 }

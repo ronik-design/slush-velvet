@@ -1,10 +1,7 @@
-/* eslint global-require:0 */
-/* eslint max-statements:0 */
-
 'use strict';
 
 const gulp = require('gulp');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const path = require('path');
 const webpack = require('webpack');
 const webpackStream = require('webpack-stream');
@@ -16,7 +13,7 @@ const hoek = require('hoek');
 const runSequence = require('run-sequence');
 const cached = require('gulp-cached');
 const size = require('gulp-size');
-const velvet = require('velvet').gulp;
+const velvetGulp = require('velvet').gulp;
 
 notify.logLevel(0);
 
@@ -45,10 +42,10 @@ const getConfig = function (scriptsDir, options) {
 };
 
 gulp.task('scripts:copy', () => {
-  const watching = util.env.watching;
+  const watching = gutil.env.watching;
   const errorHandler = notify.onError();
 
-  const site = util.env.velvet.getGlobal('site');
+  const site = gutil.env.velvet.getGlobal('site');
   const config = site.config;
 
   const scriptsDir = config['scripts_dir'];
@@ -61,20 +58,20 @@ gulp.task('scripts:copy', () => {
   return gulp.src(scripts, {cwd: scriptsDir, base: scriptsDir})
     .pipe(gulpIf(watching, plumber({errorHandler})))
     .pipe(cached(TASK))
-    .pipe(velvet.init())
+    .pipe(velvetGulp.init())
     .pipe(size({title: 'scripts:copy'}))
-    .pipe(velvet.destination())
+    .pipe(velvetGulp.destination())
     .pipe(gulp.dest(buildDir))
-    .pipe(velvet.revisionManifest({base: buildDir, merge: true}))
+    .pipe(velvetGulp.revisionManifest({base: buildDir, merge: true}))
     .pipe(gulp.dest(buildDir));
 });
 
 gulp.task('scripts:bundle', () => {
-  const production = util.env.production;
-  const watching = util.env.watching;
+  const production = gutil.env.production;
+  const watching = gutil.env.watching;
   const errorHandler = notify.onError();
 
-  const site = util.env.velvet.getGlobal('site');
+  const site = gutil.env.velvet.getGlobal('site');
   const config = site.config;
 
   const buildDir = config['build_dir'];
@@ -101,19 +98,19 @@ gulp.task('scripts:bundle', () => {
 
     tasks.push(gulp.src(script.path, {cwd: scriptsDir, base: scriptsDir})
       .pipe(gulpIf(watching, plumber({errorHandler})))
-      .pipe(velvet.init(path.join(scriptsDir, script.path)))
+      .pipe(velvetGulp.init({filepath: script.filepath}))
       .pipe(webpackStream(webpackConfigCopy, webpack))
-      .pipe(velvet.destination()));
+      .pipe(velvetGulp.destination()));
   }
 
   if (!tasks.length) {
-    return gulp.src('.').pipe(util.noop());
+    return gulp.src('.').pipe(gutil.noop());
   }
 
   return merge(tasks)
     .pipe(size({title: 'scripts'}))
     .pipe(gulp.dest(buildDir))
-    .pipe(velvet.revisionManifest({base: buildDir, merge: true}))
+    .pipe(velvetGulp.revisionManifest({base: buildDir, merge: true}))
     .pipe(gulp.dest(buildDir));
 });
 

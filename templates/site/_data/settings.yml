@@ -1,3 +1,5 @@
 site_name: {SLUSH{=name}}
 site_description: {SLUSH{=description}}
+site_keywords: {SLUSH{=keywords}}
+site_image: favicon.png
 favicon: favicon.png

@@ -1,5 +1,4 @@
 .modal__backdrop {
-
   position: fixed;
   top: 0;
   right: 0;
@@ -11,11 +10,9 @@
   .modal-is-open & {
     opacity: $modal-backdrop-opacity;
   }
-
 }
 
 .modal__inner {
-
   display: none;
   height: 100%;
   width: 100%;
@@ -26,11 +23,9 @@
   &.modal-is-open {
     display: flex;
   }
-
 }
 
 .modal__wrap {
-
   position: relative;
   width: auto;
 
@@ -47,21 +42,17 @@
       width: $modal-lg;
     }
   }
-
 }
 
 .modal__content {
-
   position: relative;
   background-color: $modal-content-bg;
   z-index: -z(modal-content);
   height: 100%;
   width: 100%;
-
 }
 
 .modal__close {
-
   cursor: pointer;
   height: 4rem;
   width: 4rem;
@@ -98,5 +89,4 @@
   &:after {
     @include transform(rotate(-45deg));
   }
-
 }

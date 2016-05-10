@@ -26,13 +26,12 @@ html_ext:       html,htm
 
 # Filtering Content
 show_drafts:    null
-limit_posts:    0
 future:         false
 unpublished:    false
 
 # Plugins
 # plugins:
-#   - test
+#   - example-plugin
 
 # Conversion
 markdown:       markdown-it

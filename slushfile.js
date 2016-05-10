@@ -93,7 +93,10 @@ gulp.task('default', done => {
     }
   }, {
     name: 'description',
-    message: 'Please describe your site?'
+    message: 'Please describe your site.'
+  }, {
+    name: 'keywords',
+    message: 'Please enter some site keywords.'
   }, {
     name: 'timezone',
     message: 'What is the timezone for your site?',
@@ -131,13 +134,22 @@ gulp.task('default', done => {
 
     config.generatorVersion = pkg.version;
 
+    const binaryFileExtensions = 'png|ico|gif|jpg|jpeg|svg|psd|bmp|webp|webm';
+
     const srcDir = path.join(__dirname, 'templates');
     const destDir = dest();
 
-    const installFiles = function (cb) {
-      gulp.src('**/*', {dot: true, cwd: srcDir, base: srcDir})
+    const installTextFiles = function (cb) {
+      gulp.src(`**/*.!(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(ignore.exclude(['package.json']))
         .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
+
+    const installBinaryFiles = function (cb) {
+      gulp.src(`**/*.+(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
@@ -163,6 +175,6 @@ gulp.task('default', done => {
         .on('end', cb);
     };
 
-    async.series([installFiles, mergePackageAndInstall], done);
+    async.series([installTextFiles, installBinaryFiles, mergePackageAndInstall], done);
   });
 });

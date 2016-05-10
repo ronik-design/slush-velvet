@@ -4,17 +4,17 @@ const gulp = require('gulp');
 const glob = require('glob');
 const path = require('path');
 const merge = require('merge-stream');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const gulpIf = require('gulp-if');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const svgSprite = require('gulp-svg-sprite');
 
 gulp.task('sprites', () => {
-  const watching = util.env.watching;
+  const watching = gutil.env.watching;
   const errorHandler = notify.onError();
 
-  const site = util.env.velvet.getGlobal('site');
+  const site = gutil.env.velvet.getGlobal('site');
   const config = site.config;
 
   const srcDir = path.join(config.source, config['sprites_dir']);

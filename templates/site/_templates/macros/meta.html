@@ -1,0 +1,86 @@
+{% import "macros/macros.html" as macros %}
+
+{% macro output(settings, options) %}
+
+  {% set site_name = settings.site_name %}
+  {% set site_description = settings.site_description %}
+  {% set site_keywords = settings.site_keywords %}
+  {% set site_image = settings.site_image %}
+  {% set og_image = settings.og_image %}
+  {% set twitter_image = settings.twitter_image %}
+
+  {% set title = macros.title(options.title, site_name, 0) %}
+  {% set description = macros.description(options.description, site_description, 140, true) %}
+
+  {% if not options.image and site_image %}
+    {% set image = site_image %}
+  {% endif %}
+
+  {% if image %}
+    {% set image = image | image_url %}
+    {% set image = macros.absolute_url(image) %}
+  {% endif %}
+
+  {% if not options.facebook_app_id and settings.facebook_app_id %}
+    {% set facebook_app_id = settings.facebook_app_id %}
+  {% endif %}
+
+  {% if not options.address and settings.address %}
+    {% set address = settings.address %}
+  {% endif %}
+
+  {% if not options.keywords %}
+    {% set keywords = site_keywords %}
+  {% endif %}
+
+  {% if not options.canonical %}
+    {% set canonical = macros.absolute_url(page.url) %}
+  {% endif %}
+
+  {% if options.og_image %}
+    {% set og_image = og_image | image_url %}
+    {% set og_image = macros.absolute_url(og_image) %}
+  {% endif %}
+
+  {% if options.twitter_image %}
+    {% set twitter_image = twitter_image | image_url %}
+    {% set twitter_image = macros.absolute_url(twitter_image) %}
+  {% endif %}
+
+  {% if options.video %}
+    {% set video = macros.absolute_url(video) %}
+  {% endif %}
+
+  {% if options.og_video %}
+    {% set og_video = macros.absolute_url(og_video) %}
+  {% endif %}
+
+
+  {% if description %}<meta name="description" content="{{ description | trim }}">{% endif %}
+  {% if keywords %}<meta name="keywords" content="{{ keywords | escape('html') | trim }}">{% endif %}
+
+  <meta property="og:type" content="{{ og_type | default('website') | escape('html') | trim }}">
+  <meta property="og:title" content="{{ title | escape('html') | trim }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:site_name" content="{{ site_name | escape('html') | trim }}">
+  {% if description %}<meta property="og:description" content="{{ description | trim }}">{% endif %}
+  {% if image or og_image %}<meta property="og:image" content="{{ og_image | default(image) | trim }}">{% endif %}
+  {% if video or og_video %}<meta property="og:video" content="{{ og_video | default(video) | trim }}">{% endif %}
+  {% if facebook_app_id %}<meta property="fb:app_id" content="{{ facebook_app_id | trim }}">{% endif %}
+
+  <meta name="twitter:card" content="{{ twitter_card | default('summary') | escape('html') | trim }}">
+  <meta name="twitter:url" content="{{ canonical }}">
+  <meta name="twitter:title" content="{{ title | escape('html') | trim }}">
+  {% if description %}<meta name="twitter:description" content="{{ description | trim }}">{% endif %}
+  {% if image or twitter_image %}<meta name="twitter:image" content="{{ twitter_image | default(image) }}">{% endif %}
+
+  {% if type == 'business.business' and address %}
+  <meta property="business:contact_data:street_address" content="{{ address.street1 }}" />
+  <meta property="business:contact_data:locality" content="{{ address.city }}" />
+  <meta property="business:contact_data:postal_code" content="{{ address.zip }}" />
+  <meta property="business:contact_data:country_name" content="{{ address.country }}" />
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical }}">
+
+{% endmacro %}

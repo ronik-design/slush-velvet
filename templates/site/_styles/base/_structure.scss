@@ -19,13 +19,3 @@ html {
 body {
   font-size: $font-size;
 }
-
-/* stylelint-disable media-feature-name-no-vendor-prefix */
-@media
-  (-webkit-min-device-pixel-ratio: 2) and (max-device-width: 900px),
-  (min-resolution: 192dpi) and (max-device-width: 1024px) {
-  html {
-    font-size: 5px;
-  }
-}
-/* stylelint-enable */

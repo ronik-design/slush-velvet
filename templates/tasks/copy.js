@@ -2,11 +2,11 @@
 
 const gulp = require('gulp');
 const htmlmin = require('gulp-htmlmin');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const path = require('path');
 
 gulp.task('copy:htmlmin', () => {
-  const config = util.env.velvet.getGlobal('site').config;
+  const config = gutil.env.velvet.getGlobal('site').config;
 
   const buildDir = config['build_dir'];
   const destDir = config.destination;
@@ -29,12 +29,12 @@ gulp.task('copy:htmlmin', () => {
 });
 
 gulp.task('copy:files', () => {
-  const config = util.env.velvet.getGlobal('site').config;
+  const config = gutil.env.velvet.getGlobal('site').config;
 
   const buildDir = config['build_dir'];
   const destDir = config.destination;
 
-  return gulp.src(path.join(buildDir, '/**/*.!(html)'))
+  return gulp.src(path.join(buildDir, '/**/*.!(html)'), {dot: true})
     .pipe(gulp.dest(destDir));
 });
 

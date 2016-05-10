@@ -1,7 +1,8 @@
 {
   "extends": "stylelint-config-standard",
   "rules": {
-    "color-hex-length": "long",
-    "selector-pseudo-element-colon-notation": "single"
+    "color-hex-length": null,
+    "selector-pseudo-element-colon-notation": "single",
+    "no-invalid-double-slash-comments": null
   }
 }

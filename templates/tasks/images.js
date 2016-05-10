@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const util = require('gulp-util');
+const gutil = require('gulp-util');
 const gulpIf = require('gulp-if');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
@@ -10,7 +10,7 @@ const runSequence = require('run-sequence');
 const sharp = require('gulp-sharp');
 const cached = require('gulp-cached');
 const merge = require('merge-stream');
-const velvet = require('velvet').gulp;
+const velvetGulp = require('velvet').gulp;
 const through = require('through2');
 
 const TASK = 'images';
@@ -41,10 +41,10 @@ const imageTransform = function () {
 };
 
 gulp.task('images:transform', () => {
-  const watching = util.env.watching;
+  const watching = gutil.env.watching;
   const errorHandler = notify.onError();
 
-  const site = util.env.velvet.getGlobal('site');
+  const site = gutil.env.velvet.getGlobal('site');
   const config = site.config;
 
   const srcDir = config['images_dir'];
@@ -55,22 +55,22 @@ gulp.task('images:transform', () => {
   const tasks = images.map(image => {
     return gulp.src(image.path, {cwd: srcDir, base: srcDir})
       .pipe(gulpIf(watching, plumber({errorHandler})))
-      .pipe(velvet.init())
-      .pipe(velvet.destination())
+      .pipe(velvetGulp.init())
+      .pipe(velvetGulp.destination())
       .pipe(cached(TASK, {optimizeMemory: true}))
-      .pipe(velvet.destination({restore: true}))
+      .pipe(velvetGulp.destination({restore: true}))
       .pipe(imageTransform())
-      .pipe(velvet.destination());
+      .pipe(velvetGulp.destination());
   });
 
   if (!tasks.length) {
-    return gulp.src('.').pipe(util.noop());
+    return gulp.src('.').pipe(gutil.noop());
   }
 
   return merge(tasks)
     .pipe(size({title: 'images'}))
     .pipe(gulp.dest(buildDir))
-    .pipe(velvet.revisionManifest({base: buildDir, merge: true}))
+    .pipe(velvetGulp.revisionManifest({base: buildDir, merge: true}))
     .pipe(gulp.dest(buildDir));
 });
 
