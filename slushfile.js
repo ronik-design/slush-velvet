@@ -133,6 +133,7 @@ gulp.task('default', done => {
     }
 
     config.generatorVersion = pkg.version;
+    config.year = moment.tz(new Date(), answers.timezone).format('YYYY');
 
     const binaryFileExtensions = 'png|ico|gif|jpg|jpeg|svg|psd|bmp|webp|webm';
 

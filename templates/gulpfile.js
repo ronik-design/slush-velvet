@@ -1,5 +1,17 @@
 'use strict';
 
+const HELP = `
+
+---- S T E N C I L ----
+
+Usage: gulp [task] [options]
+
+gulp develop [--host, --port]
+gulp build [--production]
+gulp deploy [--production, --target=[staging,production]]
+
+`;
+
 const path = require('path');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
@@ -9,6 +21,8 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const velvet = require('velvet');
 
+// Config
+
 const loadConfig = function () {
   const filepath = path.resolve(__dirname, gutil.env.config || '_config.yml');
   const config = yaml.safeLoad(fs.readFileSync(filepath, 'utf8'));
@@ -16,7 +30,6 @@ const loadConfig = function () {
   return config;
 };
 
-// Config
 gutil.env.production = gutil.env.production || process.env.NODE_ENV === 'production';
 
 gutil.env.config = loadConfig();
@@ -53,21 +66,7 @@ gulp.task('deploy', cb => {
 });
 
 gulp.task('default', cb => {
-  const help = [
-    '',
-    '',
-    '---- S T E N C I L ----',
-    '',
-    'Usage: gulp [task] [options]',
-    '',
-    'gulp develop [--host, --port]',
-    'gulp build [--production]',
-    'gulp deploy [--production, --target=[staging,production]]',
-    ''
-  ];
-
-  gutil.log(help.join('\n'));
-
+  gutil.log(HELP);
   cb();
 });
 
