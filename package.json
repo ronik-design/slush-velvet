@@ -25,10 +25,10 @@
   "devDependencies": {
     "babel-eslint": "^6.0.4",
     "eslint": "^2.9.0",
-    "eslint-config-ronik": "^1.0.2"
+    "eslint-config-ronik": "^1.0.3"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.3",
+    "async": "^2.0.0-rc.4",
     "gulp": "^3.9.1",
     "gulp-conflict": "^0.4.0",
     "gulp-ignore": "^2.0.1",
