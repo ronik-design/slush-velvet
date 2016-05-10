@@ -15,9 +15,8 @@
   <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>{% block title %}{{ site_name | default(site.config.host) }}{% endblock %}</title>
 
@@ -39,6 +38,10 @@
 
     {% block body %}
 
+      {% block nav %}
+        {% include "partials/nav.html" %}
+      {% endblock %}
+
       <div class="page__wrapper">
         {% block header %}
           {% include "partials/header.html" %}
@@ -49,11 +52,9 @@
           {% block content %}{% endblock %}
         </div>
 
-        <div id="footer" class="footer">
         {% block footer %}
           {% include "partials/footer.html" %}
         {% endblock %}
-        </div>
       </div>
 
       {% script "main.js", "bundle" %}

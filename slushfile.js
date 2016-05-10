@@ -109,6 +109,17 @@ gulp.task('default', done => {
     name: 'github',
     message: 'GitHub repo name?'
   }, {
+    name: 'styles',
+    message: 'Which style framework would you like to use?',
+    type: 'list',
+    choices: [{
+      name: 'Bootstrap',
+      value: 'bootstrap'
+    }, {
+      name: 'Starter Kit (unstyled, BEM-based framework)',
+      value: 'starter-kit'
+    }]
+  }, {
     type: 'confirm',
     name: 'moveon',
     message: 'Continue?'
@@ -141,16 +152,34 @@ gulp.task('default', done => {
     const destDir = dest();
 
     const installTextFiles = function (cb) {
+      const exclude = [
+        '{site/_styles,site/_styles/**,site/_styles/**/.*}',
+        'package.json'
+      ];
+
       gulp.src(`**/*.!(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
-        .pipe(ignore.exclude(['package.json']))
+        .pipe(ignore.exclude(exclude))
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
     };
 
+    const installStyleFiles = function (cb) {
+      gulp.src(`${srcDir}/site/_styles/${config.styles}/**/*`, {dot: true})
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(dest('site/_styles')))
+        .on('end', cb);
+    };
+
     const installBinaryFiles = function (cb) {
+      const exclude = [
+        '{site/_styles,site/_styles/**,site/_styles/**/.*}',
+        'package.json'
+      ];
+
       gulp.src(`**/*.+(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
+        .pipe(ignore.exclude(exclude))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
@@ -176,6 +205,13 @@ gulp.task('default', done => {
         .on('end', cb);
     };
 
-    async.series([installTextFiles, installBinaryFiles, mergePackageAndInstall], done);
+    const tasks = [
+      installTextFiles,
+      installStyleFiles,
+      installBinaryFiles,
+      mergePackageAndInstall
+    ];
+
+    async.series(tasks, done);
   });
 });

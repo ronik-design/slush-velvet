@@ -19,7 +19,6 @@ const nodeSass = require('node-sass');
 const postcss = require('gulp-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
-const lost = require('lost');
 const stylelint = require('stylelint');
 const syntaxScss = require('postcss-scss');
 const reporter = require('postcss-reporter');
@@ -97,10 +96,28 @@ gulp.task('styles:build', () => {
   const srcDir = config['styles_dir'];
   const srcOpts = {cwd: srcDir, base: srcDir};
 
-  const sassPaths = [
-    `${baseDir}/node_modules/breakpoint-sass/stylesheets`,
-    `${baseDir}/node_modules/bourbon/app/assets/stylesheets`
-  ];
+  const sassImporter = function (importPath, prevPath) {
+    let file = prevPath;
+
+    if (importPath === 'breakpoint') {
+      file = `${baseDir}/node_modules/breakpoint-sass/stylesheets/breakpoint.scss`;
+    }
+
+    if (importPath === 'bourbon') {
+      file = `${baseDir}/node_modules/bourbon/app/assets/stylesheets/bourbon.scss`;
+    }
+
+    if (importPath.startsWith('bootstrap')) {
+      const filepath = importPath.replace('bootstrap/', '');
+      file = `${baseDir}/node_modules/bootstrap/scss/${filepath}`;
+    }
+
+    if (file === prevPath) {
+      return null;
+    }
+
+    return {file};
+  };
 
   const sassFunctions = {
     'image-url($path: "", $width: 0, $height: 0, $crop: "", $grayscale: false, $quality: 0, $max: false, $rotate: false, $sharpen: false)'(imagePath, width, height, crop, grayscale, quality, max, rotate, sharpen) {
@@ -152,10 +169,11 @@ gulp.task('styles:build', () => {
 
   const postcssProcessors = [
     objectFitImages,
-    lost,
     autoprefixer({browsers: [config.styles.autoprefixer]})
   ];
-
+  {SLUSH{ if (styles === 'starter-kit') { }}
+  postcssProcessors.push(require('lost'));
+  {SLUSH{ } }}
   const styles = site.styles.filter(style => style.output);
 
   const tasks = [];
@@ -171,7 +189,7 @@ gulp.task('styles:build', () => {
       .pipe(gulpIf(watching, plumber({errorHandler})))
       .pipe(velvetGulp.init())
       .pipe(gulpIf(!production, sourcemaps.init()))
-      .pipe(sass({includePaths: sassPaths, functions: sassFunctions}).on('error', sass.logError))
+      .pipe(sass({importer: sassImporter, functions: sassFunctions}).on('error', sass.logError))
       .pipe(postcss(processors))
       .pipe(velvetGulp.destination())
       .pipe(gulpIf(!production, sourcemaps.write('./')));
