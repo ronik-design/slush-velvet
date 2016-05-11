@@ -171,7 +171,7 @@ gulp.task('styles:build', () => {
     objectFitImages,
     autoprefixer({browsers: [config.styles.autoprefixer]})
   ];
-  {SLUSH{ if (styles === 'starter-kit') { }}
+  {SLUSH{ if (framework === 'starter-kit') { }}
   postcssProcessors.push(require('lost'));
   {SLUSH{ } }}
   const styles = site.styles.filter(style => style.output);

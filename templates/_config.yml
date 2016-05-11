@@ -7,6 +7,7 @@ build_dir:      ./.build
 # Relative to source
 data_dir:       _data
 posts_dir:      _posts
+drafts_dir:     _drafts
 scripts_dir:    _scripts
 styles_dir:     _styles
 images_dir:     _images
@@ -14,10 +15,10 @@ sprites_dir:    _sprites
 templates_dir:  _templates
 
 # Collections
-collections:
-  cartoons:
-    layout:     default
-    output:     true
+# collections:
+#   cartoons:
+#     layout:     default
+#     output:     true
 
 # Handling Reading
 encoding:       utf-8
@@ -87,8 +88,6 @@ defaults:
       type:       posts
     values:
       layout:     default
-    process:
-      image_url:  images
   -
     scope:
       type:       pages

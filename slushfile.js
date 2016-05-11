@@ -109,17 +109,17 @@ gulp.task('default', done => {
     name: 'github',
     message: 'GitHub repo name?'
   }, {
-    name: 'styles',
-    message: 'Which style framework would you like to use?',
+    name: 'framework',
+    message: 'Which framework would you like to use?',
     type: 'list',
     choices: [{
-      name: 'Starter Kit (BEM-based framework and some useful tools)',
+      name: 'Starter Kit (BEM-based styles, Knockout scripts, Lost grid system)',
       value: 'starter-kit'
     }, {
-      name: 'Bootstrap (v4)',
+      name: 'Bootstrap (Bootstrap v4, jQuery and support scripts)',
       value: 'bootstrap'
     }, {
-      name: 'Blank (nothing at all, just a stub to start with)',
+      name: 'Blank (nothing at all, just a stub to start with, and some script polyfills)',
       value: 'blank'
     }]
   }, {
@@ -195,7 +195,7 @@ gulp.task('default', done => {
       gulp.src(`site/_styles/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))
@@ -204,10 +204,10 @@ gulp.task('default', done => {
     };
 
     const installStyleFiles = function (cb) {
-      gulp.src(`site/_styles/${config.styles}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+      gulp.src(`site/_styles/${config.framework}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))
@@ -219,7 +219,7 @@ gulp.task('default', done => {
       gulp.src(`site/_scripts/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))
@@ -228,10 +228,10 @@ gulp.task('default', done => {
     };
 
     const installScriptFiles = function (cb) {
-      gulp.src(`site/_scripts/${config.styles}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+      gulp.src(`site/_scripts/${config.framework}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))
