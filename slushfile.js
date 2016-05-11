@@ -192,7 +192,13 @@ gulp.task('default', done => {
     };
 
     const installStyleCommonFiles = function (cb) {
-      gulp.src(`site/_styles/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+      const src = [
+        'site/_styles/*',
+        '!.DS_Store',
+        '!**/.DS_Store'
+      ];
+
+      gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
           filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
@@ -204,7 +210,13 @@ gulp.task('default', done => {
     };
 
     const installStyleFiles = function (cb) {
-      gulp.src(`site/_styles/${config.framework}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+      const src = [
+        `site/_styles/${config.framework}/**/*`,
+        '!.DS_Store',
+        '!**/.DS_Store'
+      ];
+
+      gulp.src(src, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
           filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
@@ -216,7 +228,13 @@ gulp.task('default', done => {
     };
 
     const installScriptCommonFiles = function (cb) {
-      gulp.src(`site/_scripts/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+      const src = [
+        'site/_scripts/*',
+        '!.DS_Store',
+        '!**/.DS_Store'
+      ];
+
+      gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
           filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
@@ -228,7 +246,13 @@ gulp.task('default', done => {
     };
 
     const installScriptFiles = function (cb) {
-      gulp.src(`site/_scripts/${config.framework}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+      const src = [
+        `site/_scripts/${config.framework}/**/*`,
+        '!.DS_Store',
+        '!**/.DS_Store'
+      ];
+
+      gulp.src(src, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
           filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
