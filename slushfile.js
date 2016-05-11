@@ -6,9 +6,9 @@ const fs = require('fs');
 const async = require('async');
 const install = require('gulp-install');
 const conflict = require('gulp-conflict');
+const rename = require('gulp-rename');
 const template = require('gulp-template');
 const jeditor = require('gulp-json-editor');
-const ignore = require('gulp-ignore');
 const clone = require('lodash.clone');
 const merge = require('lodash.merge');
 const slugify = require('uslug');
@@ -113,11 +113,14 @@ gulp.task('default', done => {
     message: 'Which style framework would you like to use?',
     type: 'list',
     choices: [{
-      name: 'Bootstrap',
+      name: 'Starter Kit (BEM-based framework and some useful tools)',
+      value: 'starter-kit'
+    }, {
+      name: 'Bootstrap (v4)',
       value: 'bootstrap'
     }, {
-      name: 'Starter Kit (unstyled, BEM-based framework)',
-      value: 'starter-kit'
+      name: 'Blank (nothing at all, just a stub to start with)',
+      value: 'blank'
     }]
   }, {
     type: 'confirm',
@@ -152,34 +155,85 @@ gulp.task('default', done => {
     const destDir = dest();
 
     const installTextFiles = function (cb) {
-      const exclude = [
-        '{site/_styles,site/_styles/**,site/_styles/**/.*}',
-        'package.json'
+      const src = [
+        `**/*.!(${binaryFileExtensions})`,
+        '!site/_styles',
+        '!site/_styles/**',
+        '!site/_scripts',
+        '!site/_scripts/**',
+        '!.DS_Store',
+        '!**/.DS_Store',
+        '!package.json'
       ];
 
-      gulp.src(`**/*.!(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
-        .pipe(ignore.exclude(exclude))
+      gulp.src(src, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
     };
 
-    const installStyleFiles = function (cb) {
-      gulp.src(`${srcDir}/site/_styles/${config.styles}/**/*`, {dot: true})
+    const installBinaryFiles = function (cb) {
+      const src = [
+        `**/*.+(${binaryFileExtensions})`,
+        '!site/_styles',
+        '!site/_styles/**',
+        '!site/_scripts',
+        '!site/_scripts/**',
+        '!.DS_Store',
+        '!**/.DS_Store',
+        '!package.json'
+      ];
+
+      gulp.src(src, {dot: true, cwd: srcDir, base: srcDir})
         .pipe(conflict(destDir, {logger: console.log}))
-        .pipe(gulp.dest(dest('site/_styles')))
+        .pipe(gulp.dest(destDir))
         .on('end', cb);
     };
 
-    const installBinaryFiles = function (cb) {
-      const exclude = [
-        '{site/_styles,site/_styles/**,site/_styles/**/.*}',
-        'package.json'
-      ];
+    const installStyleCommonFiles = function (cb) {
+      gulp.src(`site/_styles/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+        .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(rename(filepath => {
+          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          return;
+        }))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
 
-      gulp.src(`**/*.+(${binaryFileExtensions})`, {dot: true, cwd: srcDir, base: srcDir})
-        .pipe(ignore.exclude(exclude))
+    const installStyleFiles = function (cb) {
+      gulp.src(`site/_styles/${config.styles}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+        .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(rename(filepath => {
+          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          return;
+        }))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
+
+    const installScriptCommonFiles = function (cb) {
+      gulp.src(`site/_scripts/*`, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+        .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(rename(filepath => {
+          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          return;
+        }))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
+
+    const installScriptFiles = function (cb) {
+      gulp.src(`site/_scripts/${config.styles}/**/*`, {dot: true, cwd: srcDir, base: srcDir})
+        .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(rename(filepath => {
+          filepath.dirname = filepath.dirname.replace(`/${config.styles}`, '');
+          return;
+        }))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
@@ -207,8 +261,11 @@ gulp.task('default', done => {
 
     const tasks = [
       installTextFiles,
-      installStyleFiles,
       installBinaryFiles,
+      installStyleCommonFiles,
+      installStyleFiles,
+      installScriptCommonFiles,
+      installScriptFiles,
       mergePackageAndInstall
     ];
 

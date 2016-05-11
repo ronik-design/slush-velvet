@@ -9,6 +9,19 @@ config.stats = {
   reasons: false
 };
 
+// Bootstrap needs some window deps
+config.plugins = [
+  new webpack.ProvidePlugin({
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery',
+    'window.$': 'jquery',
+    Tether: 'tether',
+    'window.Tether': 'tether'
+  })
+];
+
+config.externals = {};
+
 config.module = {
   loaders: [
     {

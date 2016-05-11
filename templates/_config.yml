@@ -30,8 +30,8 @@ future:         false
 unpublished:    false
 
 # Plugins
-# plugins:
-#   - example-plugin
+plugins:
+  - velvet-plugin-paginate
 
 # Conversion
 markdown:       markdown-it

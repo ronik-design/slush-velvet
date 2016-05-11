@@ -1,21 +1,36 @@
 ---
-title: Bootstrap starter template
+title: The Velvet Blog ({SLUSH{=styles}})
+body_classes: page--homepage-{SLUSH{=styles}}
 layout: default
+paginate: true
 ---
 
-<div class="starter-template">
-  <h1>{{ page.title }}</h1>
-  <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+<div class="content-header">
+  <div class="container">
+    <h1 class="header__title">{{ page.title }}</h1>
+    <p class="lead header__description">An example blog template built with Velvet.</p>
+  </div>
 </div>
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-8 blog-main">
-      {% for post in site.posts %}
-        <div class="blog-post">
-          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    <div class="col-sm-8">
+      {% for post in paginator.posts %}
+        <div class="post">
+          <h2 class="post__title">{{ post.title }}</h2>
+          <p class="post__meta"><a href="{{ post.url }}">{{ post.date | date('MMMM, D, YYYY') }}</a> by <a href="#">Mark</a></p>
+
+          {{ post.content }}
         </div>
       {% endfor %}
+
+
+      <nav class="pagination">
+        <a class="btn btn-outline-primary {{ 'disabled' if not paginator.next_page_path }}" href="{{ paginator.next_page_path }}">Older</a>
+        <a class="btn btn-outline-secondary {{ 'disabled' if not paginator.previous_page_path }}" href="{{ paginator.previous_page_path }}">Newer</a>
+      </nav>
+
     </div>
   </div>
 </div>
+

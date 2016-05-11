@@ -55,7 +55,6 @@
     "hoek": "^4.0.0",
     "imports-loader": "^0.6.3",
     "is-plain-obj": "^1.1.0",
-    "knockout": "^3.3.0",
     "markdown-it": "^6.0.1",
     "markdown-it-implicit-figures": "^0.2.3",
     "merge-stream": "^1.0.0",
@@ -75,7 +74,7 @@
     "through2": "^2.0.1",
     "uslug": "^1.0.3",
     "vanillajs-dom": "^0.2.0",
-    "velvet": "^1.0.1",
+    "velvet": "^1.0.2",
     "velvet-plugin-paginate": "^1.0.0",
     "vinyl-transform": "^1.0.0",
     "webpack": "^2.1.0-beta.7",
@@ -83,9 +82,11 @@
     {SLUSH{ if (styles === 'starter-kit') { }}
     , "bourbon": "^4.2.6"
     , "breakpoint-sass": "^2.7.0"
+    , "knockout": "^3.3.0"
     , "lost": "^6.7.2"
     {SLUSH{ } }}
     {SLUSH{ if (styles === 'bootstrap') { }}
+    , "jquery": "^2.2.3"
     , "bootstrap": "^4.0.0-alpha.2"
     {SLUSH{ } }}
   },

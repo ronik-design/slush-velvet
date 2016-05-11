@@ -9,6 +9,16 @@ config.stats = {
   reasons: false
 };
 
+// Some window deps
+config.plugins = [
+  new webpack.ProvidePlugin({
+    ko: 'knockout',
+    'window.ko': 'knockout'
+  })
+];
+
+config.externals = {};
+
 config.module = {
   loaders: [
     {
