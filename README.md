@@ -5,9 +5,7 @@ website. It contains all the modules, boilerplate, and built-in process to get
 you started building and deploying a full website.
 
 
-## Getting started
-
-*Experienced*  
+## Getting started (*Experienced*) 
 
 To start you will need [slush](http://slushjs.github.io) and this generator 
 installed. 
@@ -33,7 +31,8 @@ slush velvet
 
 You will be guided through a series of questions to help you set up your site.
 
-*Novice (OSX)*
+
+## Getting started (*Novice on OSX*)
 
 You'll want to start by installing [Homebrew](http://brew.sh).
 

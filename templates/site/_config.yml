@@ -1,8 +1,7 @@
 # Where things are
-base:           .
-source:         ./site
-destination:    ./public
-build_dir:      ./.build
+source:         ./
+destination:    ../public
+build_dir:      ../build
 
 # Relative to source
 data_dir:       _data
@@ -42,9 +41,21 @@ detach:         false
 port:           4000
 host:           127.0.0.1
 url:            {SLUSH{=url}}
+{SLUSH{ if (staging) { }}
 staging_url:    {SLUSH{=stagingUrl}}
+{SLUSH{ } }}
 baseurl:        /
 error:          error.html
+{SLUSH{ if (spa) { }}
+spa:            true # If true, all 404s will be redirect to the index
+{SLUSH{ } }}
+
+{SLUSH{ if (ftpHost) { }}
+# Deploy
+deploy:
+  host:         {SLUSH{=ftpHost}}
+  directory:    {SLUSH{=ftpDirectory}}
+{SLUSH{ } }}
 
 # Outputting
 images_path:    assets/images

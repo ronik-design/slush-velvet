@@ -1,0 +1,9 @@
+{
+  "extends": "eslint-config-ronik/browser",
+  "globals": {
+    "__DEV__": true,
+    "$": true,
+    "jQuery": true,
+    "Tether": true
+  }
+}

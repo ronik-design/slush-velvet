@@ -52,6 +52,8 @@ gulp.task('aws:config', cb => {
   const target = gutil.env.target || 'staging';
   const site = gutil.env.velvet.getGlobal('site');
 
+  gutil.env.deployResult = {service: 'AWS/S3'};
+
   const config = site.config;
 
   const hostname = getHostname(target, config);
@@ -62,16 +64,16 @@ gulp.task('aws:config', cb => {
     error: site.config.error
   };
 
-  // if (spa) {
-  //   s3Config.routes = [{
-  //     Condition: {
-  //       HttpErrorCodeReturnedEquals: '404'
-  //     },
-  //     Redirect: {
-  //       HostName: hostname
-  //     }
-  //   }];
-  // }
+  if (config.spa) {
+    s3Config.routes = [{
+      Condition: {
+        HttpErrorCodeReturnedEquals: '404'
+      },
+      Redirect: {
+        HostName: hostname
+      }
+    }];
+  }
 
   s3Website(s3Config, (err, website) => {
     if (err) {
@@ -79,7 +81,7 @@ gulp.task('aws:config', cb => {
       return cb(err);
     }
 
-    gutil.env.website = website;
+    gutil.env.deployResult.host = website;
 
     if (website && website.modified) {
       gutil.log(logName, 'Site config updated');
@@ -148,4 +150,4 @@ gulp.task('aws:publish', cb => {
     .pipe(awspublish.reporter());
 });
 
-gulp.task('deploy:aws', cb => runSequence('aws:config', 'aws:publish', cb));
+gulp.task('deploy', cb => runSequence('aws:config', 'aws:publish', cb));

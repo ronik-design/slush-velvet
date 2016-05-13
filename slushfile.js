@@ -76,8 +76,18 @@ gulp.task('default', done => {
       return `http://www.${answers.slug}.com`;
     }
   }, {
+    name: 'staging',
+    message: 'Do you want a separate staging site?',
+    type: 'confirm',
+    default() {
+      return false;
+    }
+  }, {
     name: 'stagingUrl',
-    message: 'What is the staging url for your site?',
+    message: 'What is the staging url?',
+    when(answers) {
+      return answers.staging;
+    },
     default(answers) {
       return `http://stage-www.${answers.slug}.com`;
     }
@@ -123,6 +133,42 @@ gulp.task('default', done => {
       value: 'blank'
     }]
   }, {
+    name: 'spa',
+    message: 'Is this a single-page application?',
+    type: 'confirm',
+    default() {
+      return false;
+    }
+  }, {
+    name: 'deploy',
+    message: 'How would you like to deploy your site?',
+    type: 'list',
+    choices: [{
+      name: 'Amazon AWS / S3 Bucket',
+      value: 'aws'
+    }, {
+      name: 'FTP',
+      value: 'ftp'
+    }, {
+      name: 'None',
+      value: 'none'
+    }]
+  }, {
+    name: 'ftpHost',
+    message: 'What is your FTP hostname?',
+    when(answers) {
+      return answers.deploy === 'ftp';
+    }
+  }, {
+    name: 'ftpDirectory',
+    message: 'What is your FTP directory?',
+    when(answers) {
+      return answers.deploy === 'ftp';
+    },
+    default() {
+      return '/public_html';
+    }
+  }, {
     type: 'confirm',
     name: 'moveon',
     message: 'Continue?'
@@ -157,6 +203,8 @@ gulp.task('default', done => {
     const installTextFiles = function (cb) {
       const src = [
         `**/*.!(${binaryFileExtensions})`,
+        '!tasks',
+        '!tasks/**',
         '!site/_styles',
         '!site/_styles/**',
         '!site/_scripts',
@@ -176,6 +224,8 @@ gulp.task('default', done => {
     const installBinaryFiles = function (cb) {
       const src = [
         `**/*.+(${binaryFileExtensions})`,
+        '!tasks',
+        '!tasks/**',
         '!site/_styles',
         '!site/_styles/**',
         '!site/_scripts',
@@ -200,10 +250,6 @@ gulp.task('default', done => {
 
       gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
-        .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
-          return;
-        }))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
@@ -236,10 +282,6 @@ gulp.task('default', done => {
 
       gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(template(config, TEMPLATE_SETTINGS))
-        .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
-          return;
-        }))
         .pipe(conflict(destDir, {logger: console.log}))
         .pipe(gulp.dest(destDir))
         .on('end', cb);
@@ -256,6 +298,36 @@ gulp.task('default', done => {
         .pipe(template(config, TEMPLATE_SETTINGS))
         .pipe(rename(filepath => {
           filepath.dirname = filepath.dirname.replace(`/${config.framework}`, '');
+          return;
+        }))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
+
+    const installTaskCommonFiles = function (cb) {
+      const src = [
+        'tasks/*',
+        '!.DS_Store',
+        '!**/.DS_Store'
+      ];
+
+      gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+        .pipe(template(config, TEMPLATE_SETTINGS))
+        .pipe(conflict(destDir, {logger: console.log}))
+        .pipe(gulp.dest(destDir))
+        .on('end', cb);
+    };
+
+    const installTaskDeployFiles = function (cb) {
+      const src = [
+        `tasks/deploy/${config.deploy}.js`
+      ];
+
+      gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
+        .pipe(rename(filepath => {
+          filepath.dirname = filepath.dirname.replace(`/deploy`, '');
+          filepath.basename = 'deploy';
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))
@@ -290,6 +362,8 @@ gulp.task('default', done => {
       installStyleFiles,
       installScriptCommonFiles,
       installScriptFiles,
+      installTaskCommonFiles,
+      installTaskDeployFiles,
       mergePackageAndInstall
     ];
 

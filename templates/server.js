@@ -4,20 +4,13 @@ const HTTP_NOT_FOUND = 404;
 // const YEAR_MS = 31536000000;
 
 const path = require('path');
-const yaml = require('js-yaml');
-const fs = require('fs');
+const loadConfig = require('./utils/load-config');
 
-const loadConfig = function (configPath) {
-  const filepath = path.resolve(__dirname, configPath);
-  return yaml.safeLoad(fs.readFileSync(filepath, 'utf8'));
-};
-
-const config = loadConfig(process.env.CONFIG || '_config.yml');
+const config = loadConfig(process.env.CONFIG || 'site/_config.yml');
 const DEFAULT_PORT = 4000;
 const HOST = process.env.HOST || config.host || '0.0.0.0';
 const PORT = process.env.PORT || config.port || DEFAULT_PORT;
-const SERVE_PATH = process.env.NODE_ENV === 'production' ? config.destination : config['build_dir'];
-const SERVE_DIR = path.join(__dirname, SERVE_PATH);
+const SERVE_DIR = process.env.NODE_ENV === 'production' ? config.destination : config['build_dir'];
 const ERROR_PAGE = config.error || 'error.html';
 
 const hapi = require('hapi');

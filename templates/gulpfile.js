@@ -12,27 +12,18 @@ gulp deploy [--production, --target=[staging,production]]
 
 `;
 
-const path = require('path');
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const runSequence = require('run-sequence');
 const requireDir = require('require-dir');
-const yaml = require('js-yaml');
-const fs = require('fs');
 const velvet = require('velvet');
+const loadConfig = require('./utils/load-config');
 
 // Config
 
-const loadConfig = function () {
-  const filepath = path.resolve(__dirname, gutil.env.config || '_config.yml');
-  const config = yaml.safeLoad(fs.readFileSync(filepath, 'utf8'));
-  config.base = config.base ? path.resolve(config.base) : __dirname;
-  return config;
-};
-
 gutil.env.production = gutil.env.production || process.env.NODE_ENV === 'production';
 
-gutil.env.config = loadConfig();
+gutil.env.config = loadConfig(gutil.env.config || 'site/_config.yml');
 
 gutil.env.velvet = velvet.loadEnv({
   config: gutil.env.config,
@@ -54,11 +45,14 @@ gulp.task('develop', cb => {
 // Deploy
 
 gulp.task('deploy', cb => {
-  runSequence('build', 'deploy:aws', () => {
-    if (gutil.env.website) {
-      gutil.log('Your site has been deployed to AWS');
+  runSequence('build', 'deploy', () => {
+    if (gutil.env.deployResult) {
+      const service = gutil.env.deployResult.service;
+      const host = gutil.env.deployResult.host;
+
+      gutil.log(`Your site has been deployed to ${service}`);
       gutil.log('----------------------------------');
-      gutil.log(gutil.colors.green(gutil.env.website));
+      gutil.log(gutil.colors.green(host));
     }
 
     cb();
