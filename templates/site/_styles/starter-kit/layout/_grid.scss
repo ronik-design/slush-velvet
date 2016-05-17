@@ -1,4 +1,4 @@
-@lost gutter map-get(("gutter": $grid-gutter-width), "gutter");
+@lost gutter #{map-get(("gutter": $grid-gutter-width), "gutter")};
 @lost flexbox flex;
 @lost cycle auto;
 
