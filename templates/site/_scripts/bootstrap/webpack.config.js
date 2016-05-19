@@ -23,6 +23,13 @@ config.plugins = [
 config.externals = {};
 
 config.module = {
+  preLoaders: [
+    {
+      test: /\.js$/,
+      exclude: /node_modules|vendor/,
+      loader: 'eslint'
+    }
+  ],
   loaders: [
     {
       test: /\/vendor\//,
@@ -35,16 +42,12 @@ config.module = {
         cacheDirectory: true,
         presets: ['es2015-native-modules']
       }
-    }, {
-      test: /\.js$/,
-      exclude: /node_modules|\/vendor\//,
-      loader: 'eslint'
     }
   ]
 };
 
 config.resolve = {
-  modules: ['local_modules', 'node_modules'],
+  modules: ['node_modules'],
   extensions: ['', '.js']
 };
 

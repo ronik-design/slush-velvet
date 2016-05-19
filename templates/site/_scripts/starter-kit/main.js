@@ -4,9 +4,6 @@ import svg4everybody from 'svg4everybody';
 import {ready} from 'vanillajs-dom';
 import app from './app';
 
-import knockout from 'knockout';
-global.ko = knockout;
-
 window.app = app;
 
 ready(() => {

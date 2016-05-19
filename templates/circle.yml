@@ -2,13 +2,19 @@ machine:
   timezone:
     America/New_York
   node:
-    version: 5.0.0
+    version: 6.2.0
+  environment:
+    NODE_ENV: production
+
+dependencies:
+  override:
+    - npm install --dev
 
 deployment:
   production:
     tag: /v.*/
     commands:
-      - NODE_ENV=production npm run deploy:production
+      - npm run deploy:production
   staging:
     branch: master
     commands:
