@@ -192,6 +192,7 @@ gulp.task('default', done => {
       }
     }
 
+    config.deployer = config.deployer || 'none';
     config.generatorVersion = pkg.version;
     config.year = moment.tz(new Date(), answers.timezone).format('YYYY');
 
