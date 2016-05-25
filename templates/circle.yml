@@ -8,7 +8,8 @@ machine:
 
 dependencies:
   cache_directories:
-    - node_modules
+    - ~/nvm/versions/node/v6.2.0/lib/node_modules
+    - ~/nvm/versions/node/v6.2.0/bin
   override:
     - npm install --dev
 

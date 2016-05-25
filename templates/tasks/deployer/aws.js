@@ -150,4 +150,4 @@ gulp.task('aws:publish', cb => {
     .pipe(awspublish.reporter());
 });
 
-gulp.task('deploy', cb => runSequence('aws:config', 'aws:publish', cb));
+gulp.task('deployer', cb => runSequence('aws:config', 'aws:publish', cb));

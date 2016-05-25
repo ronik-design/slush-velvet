@@ -43,14 +43,16 @@ Simple tests:
 $ npm test
 ```
 
-Put your website somewhere people can see it!*
+Put your website somewhere people can see it!
 
 ```shell
 $ gulp deploy
 ```
 
+{SLUSH{ if (deployer === 'aws') { }}
 > *This requires credentials acceptable to [s3-website](https://github.com/klaemo/s3-website)
   and generally doing things s3 allows (your bucket name must be unique)
+{SLUSH{ } }}
 
 > `--target` flag sets a flag for either `staging` (default) or `production`.
 If you provided a `staging_url` in the config file, that will be used in staging

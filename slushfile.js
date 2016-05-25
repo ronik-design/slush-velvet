@@ -140,7 +140,7 @@ gulp.task('default', done => {
       return false;
     }
   }, {
-    name: 'deploy',
+    name: 'deployer',
     message: 'How would you like to deploy your site?',
     type: 'list',
     choices: [{
@@ -157,13 +157,13 @@ gulp.task('default', done => {
     name: 'ftpHost',
     message: 'What is your FTP hostname?',
     when(answers) {
-      return answers.deploy === 'ftp';
+      return answers.deployer === 'ftp';
     }
   }, {
     name: 'ftpDirectory',
     message: 'What is your FTP directory?',
     when(answers) {
-      return answers.deploy === 'ftp';
+      return answers.deployer === 'ftp';
     },
     default() {
       return '/public_html';
@@ -321,13 +321,13 @@ gulp.task('default', done => {
 
     const installTaskDeployFiles = function (cb) {
       const src = [
-        `tasks/deploy/${config.deploy}.js`
+        `tasks/deployer/${config.deployer}.js`
       ];
 
       gulp.src(src, {dot: true, nodir: true, cwd: srcDir, base: srcDir})
         .pipe(rename(filepath => {
-          filepath.dirname = filepath.dirname.replace(`/deploy`, '');
-          filepath.basename = 'deploy';
+          filepath.dirname = filepath.dirname.replace(`/deployer`, '');
+          filepath.basename = 'deployer';
           return;
         }))
         .pipe(conflict(destDir, {logger: console.log}))

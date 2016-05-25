@@ -9,6 +9,7 @@ Usage: gulp [task] [options]
 gulp develop [--host, --port]
 gulp build [--production]
 gulp deploy [--production, --target=[staging,production]]
+gulp release [--message]
 
 `;
 
@@ -45,7 +46,7 @@ gulp.task('develop', cb => {
 // Deploy
 
 gulp.task('deploy', cb => {
-  runSequence('build', 'deploy', () => {
+  runSequence('build', 'deployer', () => {
     if (gutil.env.deployResult) {
       const service = gutil.env.deployResult.service;
       const host = gutil.env.deployResult.host;

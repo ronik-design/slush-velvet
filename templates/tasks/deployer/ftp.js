@@ -38,4 +38,4 @@ gulp.task('ftp:publish', () => {
     .on('error', notify.onError());
 });
 
-gulp.task('deploy', cb => runSequence('ftp:publish', cb));
+gulp.task('deployer', cb => runSequence('ftp:publish', cb));
