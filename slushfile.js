@@ -141,6 +141,13 @@ gulp.task('default', done => {
       }
     }
   }, {
+    name: 'githubToken',
+    message: 'GitHub token for the releaser?',
+    when(answers) {
+      return answers.github;
+    },
+    default: ''
+  }, {
     name: 'framework',
     message: 'Which framework would you like to use?',
     type: 'list',
@@ -182,7 +189,7 @@ gulp.task('default', done => {
       return answers.deployer === 'aws';
     },
     default(answers) {
-      return answers.url;
+      return url.parse(answers.url).hostname;
     }
   }, {
     name: 'ftpHost',
