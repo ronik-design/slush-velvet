@@ -11,14 +11,14 @@ dependencies:
     - ~/nvm/versions/node/v6.2.0/lib/node_modules
     - ~/nvm/versions/node/v6.2.0/bin
   override:
-    - npm install --dev
+    - npm install --only=development && npm install --only=production
 
 deployment:
   production:
     tag: /v.*/
     commands:
-      - npm run deploy:production
+      - gulp deploy --target=production
   staging:
     branch: master
     commands:
-      - npm run deploy
+      - gulp deploy --target=staging

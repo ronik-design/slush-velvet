@@ -1,17 +1,17 @@
 # Where things are
-source:         ./
-destination:    _site
-build:          _build
+source:             ./
+destination:        _site
+build:              _build
 
 # Relative to source
-data_dir:       _data
-posts_dir:      _posts
-drafts_dir:     _drafts
-scripts_dir:    _scripts
-styles_dir:     _styles
-images_dir:     _images
-sprites_dir:    _sprites
-templates_dir:  _templates
+data_dir:           _data
+posts_dir:          _posts
+drafts_dir:         _drafts
+scripts_dir:        _scripts
+styles_dir:         _styles
+images_dir:         _images
+sprites_dir:        _sprites
+templates_dir:      _templates
 
 # Collections
 # collections:
@@ -20,123 +20,123 @@ templates_dir:  _templates
 #     output:     true
 
 # Handling Reading
-encoding:       utf-8
-markdown_ext:   markdown,mkdown,mkdn,mkd,md
-html_ext:       html,htm
+encoding:           utf-8
+markdown_ext:       markdown,mkdown,mkdn,mkd,md
+html_ext:           html,htm
 
 # Filtering Content
-show_drafts:    null
-future:         false
-unpublished:    false
+show_drafts:        null
+future:             false
+unpublished:        false
 
 # Plugins
 plugins:
   - velvet-plugin-paginate
 
 # Conversion
-markdown:       markdown-it
+markdown:           markdown-it
 
 # Serving
-detach:         false
-port:           4000
-host:           127.0.0.1
-url:            {SLUSH{=url}}
-staging_url:    {SLUSH{ if (staging) { print (stagingUrl) } }}
-baseurl:        /
-error:          error.html
-single_page:    {SLUSH{ if (spa) { print(true) } else { print(false) } }} # If true, all 404s will be redirect to the index
+detach:             false
+port:               4000
+host:               127.0.0.1
+url:                {SLUSH{=url}}
+staging_url:        {SLUSH{ if (staging) { print (stagingUrl) } }}
+baseurl:            /
+error:              error.html
+single_page:        {SLUSH{ if (spa) { print(true) } else { print(false) } }} # If true, all 404s will be redirect to the index
 
 {SLUSH{ if (deployer === 'ftp') { }}
 # Deployer
 deployer:
-  type:         ftp
-  host:         {SLUSH{=ftpHost}}
-  directory:    {SLUSH{=ftpDirectory}}
+  type:             ftp
+  host:             {SLUSH{=ftpHost}}
+  directory:        {SLUSH{=ftpDirectory}}
 {SLUSH{ } else if (deployer === 'aws') { }}
 # Deployer
 deployer:
-  type:         aws
-  bucket:       {SLUSH{ if (awsBucket) { print(awsBucket) } }}
+  type:             aws
+  bucket:           {SLUSH{ if (awsBucket) { print(awsBucket) } }}
 {SLUSH{ } }}
 
 # Outputting
-images_path:    assets/images
-scripts_path:   assets/scripts
-styles_path:    assets/styles
-sprites_path:   assets/sprites
+images_path:        assets/images
+scripts_path:       assets/scripts
+styles_path:        assets/styles
+sprites_path:       assets/sprites
 
-timezone:       {SLUSH{=timezone}}
-permalink:      pretty
+timezone:           {SLUSH{=timezone}}
+permalink:          pretty
 
 # Markdown Processors
 markdown-it:
-  options:      commonmark
+  options:          commonmark
   plugins:
     -
-      name:     markdown-it-implicit-figures
+      name:         markdown-it-implicit-figures
       options:
         dataType:   true
         figcaption: true
 
 styles:
-  autoprefixer: last 2 versions
+  autoprefixer:     last 2 versions
   minify:
-    envs:       [production]
+    envs:           [production]
   revision:
-    envs:       [production]
+    envs:           [production]
 {SLUSH{ if (framework === 'bootstrap') { }}
   sass:
     importMappings:
       -
-        search: ^bootstrap/(.+)
-        replace: node_modules/bootstrap/scss/$1
+        search:     ^bootstrap/(.+)
+        replace:    node_modules/bootstrap/scss/$1
 {SLUSH{ } else if (framework === 'starter-kit') { }}
   sass:
     importMappings:
       -
-        search: ^breakpoint$
-        replace: node_modules/breakpoint-sass/stylesheets/breakpoint
+        search:     ^breakpoint$
+        replace:    node_modules/breakpoint-sass/stylesheets/breakpoint
       -
-        search: ^bourbon$
-        replace: node_modules/bourbon/app/assets/stylesheets/bourbon
+        search:     ^bourbon$
+        replace:    node_modules/bourbon/app/assets/stylesheets/bourbon
   postcss:
     plugins:
-      - name: lost
+      - name:       lost
 {SLUSH{ } }}
 
 images:
   revision:
-    envs:       [production]
+    envs:           [production]
 
 scripts:
   minify:
-    envs:       [production]
+    envs:           [production]
   revision:
-    envs:       [production]
+    envs:           [production]
 
 defaults:
   -
     scope:
-      type:       posts
+      type:         posts
     values:
-      layout:     default
+      layout:       default
   -
     scope:
-      type:       pages
+      type:         pages
     values:
-      layout:     default
+      layout:       default
   -
     scope:
-      type:       images
+      type:         images
     values:
-      permalink:  /:urlpath/:dirname/:basename-:filters_hash:extname
+      permalink:    /:urlpath/:dirname/:basename-:filters_hash:extname
   -
     scope:
-      type:       scripts
+      type:         scripts
     values:
-      permalink:  /:urlpath/:dirname/:basename:output_ext
+      permalink:    /:urlpath/:dirname/:basename:output_ext
   -
     scope:
-      type:       styles
+      type:         styles
     values:
-      permalink:  /:urlpath/:dirname/:basename:output_ext
+      permalink:    /:urlpath/:dirname/:basename:output_ext
