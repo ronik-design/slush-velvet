@@ -120,3 +120,20 @@ directly to the `build_dir` and `destination`.
   `_config.yml` file. This is turned on by default. When doing a `production` 
   build, or whatever `env` you have set in the config, the files are renamed, 
   and the references in your templates updated to point to the correct filenames.
+
+
+{SLUSH{ if (github) { }}
+## Collaborating with git
+
+Create your git repository in Github. Don't add any default files.
+
+```shell
+$ git init
+$ git remote add origin git@github.com:{SLUSH{=github}}.git
+$ git add .
+$ git commit -am "Initial commit"
+$ git branch --set-upstream-to=origin/master
+$ git pull --rebase
+$ git push origin master
+```
+{SLUSH{ } }}

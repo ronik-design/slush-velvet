@@ -2,7 +2,7 @@
 
 const HELP = `
 
----- S T E N C I L ----
+---- V E L V E T ----
 
 Usage: gulp [task] [options]
 
@@ -16,53 +16,41 @@ gulp release [--message]
 const gulp = require('gulp');
 const gutil = require('gulp-util');
 const runSequence = require('run-sequence');
-const requireDir = require('require-dir');
-const velvet = require('velvet');
 const loadConfig = require('./utils/load-config');
 
 // Config
 
-gutil.env.production = gutil.env.production || process.env.NODE_ENV === 'production';
+const PRODUCTION = gutil.env.production || process.env.NODE_ENV === 'production';
+const CONFIG = gutil.env.config || 'site/_config.yml';
 
-gutil.env.config = loadConfig(gutil.env.config || 'site/_config.yml');
+const opts = {
+  config: loadConfig(CONFIG),
+  environment: PRODUCTION ? 'production' : 'development'
+};
 
-gutil.env.velvet = velvet.loadEnv({
-  config: gutil.env.config,
-  environment: gutil.env.production ? 'production' : 'development'
-});
+require('velvet-gulp')(gulp, opts);
 
 // Build
 
 gulp.task('build', cb => {
-  runSequence('compile', 'copy', cb);
+  runSequence('generate', 'copy', cb);
 });
 
 // Develop
 
 gulp.task('develop', cb => {
-  runSequence('compile', 'browser-sync', 'watch', cb);
+  runSequence('generate', 'browser-sync', 'watch', cb);
 });
 
 // Deploy
 
 gulp.task('deploy', cb => {
-  runSequence('build', 'deployer', () => {
-    if (gutil.env.deployResult) {
-      const service = gutil.env.deployResult.service;
-      const host = gutil.env.deployResult.host;
-
-      gutil.log(`Your site has been deployed to ${service}`);
-      gutil.log('----------------------------------');
-      gutil.log(gutil.colors.green(host));
-    }
-
-    cb();
-  });
+  runSequence('build', 'deployer', cb);
 });
+
+// Help
 
 gulp.task('default', cb => {
   gutil.log(HELP);
   cb();
 });
-
-requireDir('./tasks');

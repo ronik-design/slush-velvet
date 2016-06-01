@@ -4,6 +4,7 @@ This generator is the starting point for a [Velvet](https://github.com/ronik-des
 website. It contains all the modules, boilerplate, and built-in process to get
 you started building and deploying a full website.
 
+> Created by [Ronik Design](http://www.ronikdesign.com) and used to speed up internal development.
 
 ## Getting started (*Experienced*) 
 
@@ -98,4 +99,35 @@ add `--target=production`, and additionally, to optimized the build as above, ad
 ```sh
 gulp deploy --production --target=production
 ```
+
+
+## Collaborating with git
+
+Create your git repository in Github. Don't add any default files.
+
+```shell
+$ git init
+$ git remote add origin git@github.com:[repo-name].git
+$ git add .
+$ git commit -am "Initial commit"
+$ git branch --set-upstream-to=origin/master
+$ git pull --rebase
+$ git push origin master
+```
+
+
+## Getting To Know Slush
+
+Slush is a tool that uses Gulp for project scaffolding.
+
+Slush does not contain anything "out of the box", except the ability to locate installed slush generators and to run them with liftoff.
+
+To find out more about Slush, check out the [documentation](https://github.com/klei/slush).
+
+## Contributing
+
+See the [CONTRIBUTING Guidelines](https://github.com/ronik-design/slush-website/blob/master/CONTRIBUTING.md)
+
+## Support
+If you have any problem or suggestion please open an issue [here](https://github.com/ronik-design/slush-website/issues).
 

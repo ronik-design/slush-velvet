@@ -1,7 +1,9 @@
-import 'babel-polyfill';
+import 'core-js/es6';
 import objectFitImages from 'object-fit-images';
 import svg4everybody from 'svg4everybody';
+
 import {ready} from 'vanillajs-dom';
+
 import app from './app';
 
 window.app = app;

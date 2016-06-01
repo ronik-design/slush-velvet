@@ -4,7 +4,7 @@ const isUninitialized = function (val) {
   return val === null || val === undefined || Array.isArray(val) && val.length === 0;
 };
 
-export default class ViewModel {
+class ViewModel {
 
   constructor(options = {}) {
     Object.getOwnPropertyNames(options)
@@ -101,3 +101,5 @@ export default class ViewModel {
     // Placeholder
   }
 }
+
+export default ViewModel;

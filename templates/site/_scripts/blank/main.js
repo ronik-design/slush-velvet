@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import 'core-js/es6';
 import objectFitImages from 'object-fit-images';
 import svg4everybody from 'svg4everybody';
 

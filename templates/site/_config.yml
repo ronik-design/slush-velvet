@@ -1,7 +1,7 @@
 # Where things are
 source:         ./
-destination:    ../public
-build_dir:      ../build
+destination:    _site
+build:          _build
 
 # Relative to source
 data_dir:       _data
@@ -41,20 +41,22 @@ detach:         false
 port:           4000
 host:           127.0.0.1
 url:            {SLUSH{=url}}
-{SLUSH{ if (staging) { }}
-staging_url:    {SLUSH{=stagingUrl}}
-{SLUSH{ } }}
+staging_url:    {SLUSH{ if (staging) { print (stagingUrl) } }}
 baseurl:        /
 error:          error.html
-{SLUSH{ if (spa) { }}
-spa:            true # If true, all 404s will be redirect to the index
-{SLUSH{ } }}
+single_page:    {SLUSH{ if (spa) { print(true) } else { print(false) } }} # If true, all 404s will be redirect to the index
 
-{SLUSH{ if (ftpHost) { }}
-# Deploy
-deploy:
+{SLUSH{ if (deployer === 'ftp') { }}
+# Deployer
+deployer:
+  type:         ftp
   host:         {SLUSH{=ftpHost}}
   directory:    {SLUSH{=ftpDirectory}}
+{SLUSH{ } else if (deployer === 'aws') { }}
+# Deployer
+deployer:
+  type:         aws
+  bucket:       {SLUSH{ if (awsBucket) { print(awsBucket) } }}
 {SLUSH{ } }}
 
 # Outputting
@@ -82,6 +84,26 @@ styles:
     envs:       [production]
   revision:
     envs:       [production]
+{SLUSH{ if (framework === 'bootstrap') { }}
+  sass:
+    importMappings:
+      -
+        search: ^bootstrap/(.+)
+        replace: node_modules/bootstrap/scss/$1
+{SLUSH{ } }}
+{SLUSH{ if (framework === 'starter-kit') { }}
+  sass:
+    importMappings:
+      -
+        search: ^breakpoint$
+        replace: node_modules/breakpoint-sass/stylesheets/breakpoint
+      -
+        search: ^bourbon$
+        replace: node_modules/bourbon/app/assets/stylesheets/bourbon
+  postcss:
+    plugins:
+      - name: lost
+{SLUSH{ } }}
 
 images:
   revision:

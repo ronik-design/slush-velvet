@@ -57,6 +57,17 @@ const defaults = (function () {
   };
 })();
 
+const parseGithubRepo = function (str) {
+  const githubRe = /(?:https?:\/\/github.com)?\/?([^\/.]+\/[^\/.]+)(?:\.git)?$/i;
+  const match = str.match(githubRe);
+
+  if (match && match[1]) {
+    return match[1];
+  }
+
+  return null;
+};
+
 gulp.task('default', done => {
   const prompts = [{
     name: 'name',
@@ -117,7 +128,18 @@ gulp.task('default', done => {
     default: '0.1.0'
   }, {
     name: 'github',
-    message: 'GitHub repo name?'
+    message: 'GitHub repo name? (e.g. foo/bar, https://github.com/foo/bar.git)',
+    validate(str) {
+      if (str === null) {
+        return false;
+      }
+      return true;
+    },
+    filter(str) {
+      if (str) {
+        return parseGithubRepo(str);
+      }
+    }
   }, {
     name: 'framework',
     message: 'Which framework would you like to use?',
@@ -154,6 +176,15 @@ gulp.task('default', done => {
       value: 'none'
     }]
   }, {
+    name: 'awsBucket',
+    message: 'What bucket name would you like to use? (otherwise it will be derived from the url)',
+    when(answers) {
+      return answers.deployer === 'aws';
+    },
+    default(answers) {
+      return answers.url;
+    }
+  }, {
     name: 'ftpHost',
     message: 'What is your FTP hostname?',
     when(answers) {
@@ -181,16 +212,6 @@ gulp.task('default', done => {
     }
 
     const config = clone(answers);
-
-    if (answers.github) {
-      const githubRe = /(?:https?:\/\/github.com)?\/?([^\/.]+\/[^\/.]+)(?:\.git)?$/i;
-      const match = answers.github.match(githubRe);
-      if (match && match[1]) {
-        config.github = match[1];
-      } else {
-        config.github = null;
-      }
-    }
 
     config.deployer = config.deployer || 'none';
     config.generatorVersion = pkg.version;
