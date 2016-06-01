@@ -90,8 +90,7 @@ styles:
       -
         search: ^bootstrap/(.+)
         replace: node_modules/bootstrap/scss/$1
-{SLUSH{ } }}
-{SLUSH{ if (framework === 'starter-kit') { }}
+{SLUSH{ } else if (framework === 'starter-kit') { }}
   sass:
     importMappings:
       -
