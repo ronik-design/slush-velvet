@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
+const url = require('url');
 const async = require('async');
 const install = require('gulp-install');
 const conflict = require('gulp-conflict');
