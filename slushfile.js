@@ -59,11 +59,11 @@ const defaults = (function () {
 })();
 
 const parseGithubRepo = function (str) {
-  const githubRe = /(?:https?:\/\/github.com)?\/?([^\/.]+\/[^\/.]+)(?:\.git)?$/i;
+  const githubRe = /(?:https?:\/\/github.com)?\/?([^\/.]+\/[^\/]+)(?:\.git)?$/i;
   const match = str.match(githubRe);
 
   if (match && match[1]) {
-    return match[1];
+    return match[1].replace(/\.git$/, '');
   }
 
   return null;
