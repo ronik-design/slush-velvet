@@ -139,6 +139,8 @@ gulp.task('default', done => {
     filter(str) {
       if (str) {
         return parseGithubRepo(str);
+      } else {
+        return '';
       }
     }
   }, {

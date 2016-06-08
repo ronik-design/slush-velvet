@@ -7,13 +7,13 @@
   "generator": "slush-velvet v{SLUSH{=generatorVersion}}",
   "license": "UNLICENSED",
   {SLUSH{ if (github) { }}
-  "homepage": "https://github.com/<%= github %>",
+  "homepage": "https://github.com/{SLUSH{=github}}",
   "repository": {
     "type": "git",
-    "url": "git://github.com/<%= github %>.git"
+    "url": "git://github.com/{SLUSH{=github}}.git"
   },
   "bugs": {
-    "url": "https://github.com/<%= github %>/issues"
+    "url": "https://github.com/{SLUSH{=github}}/issues"
   },
   {SLUSH{ } }}
   "scripts": {

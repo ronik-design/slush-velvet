@@ -46,6 +46,11 @@ baseurl:            /
 error:              error.html
 single_page:        {SLUSH{ if (spa) { print(true) } else { print(false) } }} # If true, all 404s will be redirect to the index
 
+{SLUSH{ if (github) { }}
+# Releaser
+github_token:       {SLUSH{=githubToken}}
+{SLUSH{ } }}
+
 {SLUSH{ if (deployer === 'ftp') { }}
 # Deployer
 deployer:
@@ -77,6 +82,10 @@ markdown-it:
       options:
         dataType:   true
         figcaption: true
+
+html:
+  minify:
+    envs:           [production]
 
 styles:
   autoprefixer:     last 2 versions

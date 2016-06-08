@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const webpack = require('webpack');
 
 const config = {};
@@ -49,6 +50,10 @@ config.module = {
 config.resolve = {
   modules: ['node_modules'],
   extensions: ['', '.js']
+};
+
+config.eslint = {
+  configFile: path.join(__dirname, '.eslintrc')
 };
 
 module.exports = config;
