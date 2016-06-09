@@ -51,8 +51,8 @@
     "svg4everybody": "^2.0.0",
     "uslug": "^1.0.3",
     "vanillajs-dom": "^0.2.0",
-    "velvet": "^1.1.0",
-    "velvet-gulp": "^1.2.0",
+    "velvet": "^1.1.1",
+    "velvet-gulp": "^1.2.8",
     "velvet-plugin-paginate": "^1.0.0"
     {SLUSH{ if (framework === 'starter-kit') { }}
     , "bourbon": "^4.2.6"
